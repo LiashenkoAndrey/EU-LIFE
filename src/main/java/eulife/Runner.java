@@ -1,6 +1,7 @@
 package eulife;
 
 import eulife.dao.implementation.UserDAO;
+import eulife.domain.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,9 +14,16 @@ public class Runner {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Runner.class, args);
-        UserDAO userDAO = context.getBean(UserDAO.class);
-        System.out.println(userDAO.userList());
+//        UserDAO userDAO = context.getBean(UserDAO.class);
+//        System.out.println(userDAO.userList());
 
+        User user = new User.UserBuilder()
+                .setAge(18)
+                .setFirst_name("Myroslava")
+                .build();
+
+        System.out.println(user.getFirst_name());
+        System.out.println(user.getAge());
     }
 
 
