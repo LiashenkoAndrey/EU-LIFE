@@ -2,14 +2,19 @@ package eulife.domain;
 
 
 
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
-
+@Entity
+@Table(name = "users")
 public class User {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String first_name;
@@ -21,6 +26,17 @@ public class User {
     private String password;
 
     private Date date_of_creation;
+
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
 
     public User() {
     }
@@ -93,6 +109,7 @@ public class User {
         this.login = builder.login;
         this.password = builder.password;
         this.date_of_creation = builder.date_of_creation;
+        this.role = builder.role;
     }
 
     public static class UserBuilder {
@@ -108,6 +125,8 @@ public class User {
         private String login;
         private String password;
         private Date date_of_creation;
+
+        private Roles role;
 
 
 
@@ -143,6 +162,11 @@ public class User {
 
         public UserBuilder setDate_of_creation(Date date_of_creation) {
             this.date_of_creation = date_of_creation;
+            return this;
+        }
+
+        public UserBuilder setRole(Roles role) {
+            this.role = role;
             return this;
         }
 
