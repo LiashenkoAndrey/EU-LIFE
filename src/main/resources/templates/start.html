@@ -37,26 +37,29 @@
 
             </nav>
 
-        
-    
+
+
+
+
         <div id="navbarAndContentWrapper" class="container mt-2">
             <div class="row m-3">
-                    <ul class="list-unstyled col-md-1 border rounded-3" id="nav-list">
-                        <li><a href="#">hello</a></li>
-                        <li>
-                            <a href="#">this</a>
-                        </li>
-                        <li>
-                            <a href="#">is</a>
-                        </li>
-                        <li>
-                            <a href="#">link</a>
-                        </li>
-                    </ul>
-                <div class="col-lg-3">
-                    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum temporibus expedita reprehenderit dolorum dolorem dicta officiis, est consectetur veritatis nostrum odio dignissimos facilis? Sequi, veritatis consequuntur laudantium numquam doloremque expedita!</div>
+                <ul class="list-unstyled col-md-1 " id="nav-list">
+                    <li class="border rounded-3 my-3 p-2 bg-secondary text-"><a href="#">hello</a></li>
+                    <li class="border rounded-3 my-3 p-2 bg-secondary">
+                        <a href="#">this</a>
+                    </li>
+                    <li class="border rounded-3 my-3 p-2 bg-secondary">
+                        <a href="#">is</a>
+                    </li>
+                    <li class="border rounded-3 my-3 p-2 bg-secondary">
+                        <a href="#">link</a>
+                    </li>
+                </ul>
+                <div class="col-md-8" th:each="question : ${questions}">
+                    <div class="container my-3" th:text="${question.text}"></div>
                 </div>
-        </div>
+
+            </div>
 
         <div id="footer" class="container mt-2" style="height: 200px;">
             <h4>footer</h4>
