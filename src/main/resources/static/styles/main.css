@@ -1,0 +1,18 @@
+
+
+
+#nav-list li a {
+    color: black;
+    text-decoration: none;
+    
+}
+
+#nav-list li  {
+    text-align: center;
+}
+
+@media screen and (max-width: 1100px) {
+    #nav-list {
+        display: none;
+    }
+}

@@ -30,6 +30,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+
+    private final transient String full_name = first_name + " " + last_name;
+
+    public String getFull_name() {
+        return full_name;
+    }
+
     public Roles getRole() {
         return role;
     }
