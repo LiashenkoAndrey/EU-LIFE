@@ -1,6 +1,6 @@
 package eulife.controllers;
 
-import eulife.domain.Roles;
+import eulife.domain.Role;
 import eulife.domain.User;
 import eulife.repositories.UserRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,8 @@ public class UserController {
     @GetMapping("/new")
     public void newUser() {
 
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role("USER"));
         User maryna = new User.UserBuilder()
                 .setAge(19)
                 .setEmail("maruna@gmail.com")
@@ -46,7 +49,7 @@ public class UserController {
                 .setFirst_name("maryna")
                 .setLast_name("Gordon")
                 .setDate_of_creation(new Date())
-                .setRole(Roles.USER)
+                .setRole(roles)
                 .build();
 
         userRepository.save(maryna);
