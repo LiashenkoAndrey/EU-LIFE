@@ -3,14 +3,20 @@ package eulife.domain;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CollectionType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
 
     @Id
@@ -27,9 +33,9 @@ public class User {
 
     private Date date_of_creation;
 
-    @Enumerated(EnumType.STRING)
-    private Roles role;
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
+    private List<Role> role = new ArrayList<>();
 
     private final transient String full_name = first_name + " " + last_name;
 
@@ -37,11 +43,11 @@ public class User {
         return full_name;
     }
 
-    public Roles getRole() {
+    public List<Role> getRole() {
         return role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(List<Role> role) {
         this.role = role;
     }
 
@@ -100,8 +106,38 @@ public class User {
         this.login = login;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return role;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -133,7 +169,7 @@ public class User {
         private String password;
         private Date date_of_creation;
 
-        private Roles role;
+        private List<Role> role = new ArrayList<>();
 
 
 
@@ -172,7 +208,7 @@ public class User {
             return this;
         }
 
-        public UserBuilder setRole(Roles role) {
+        public UserBuilder setRole(List<Role> role) {
             this.role = role;
             return this;
         }
