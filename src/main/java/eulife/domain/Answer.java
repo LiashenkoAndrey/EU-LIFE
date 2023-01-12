@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Entity
@@ -31,7 +32,18 @@ public class Answer {
     @ManyToOne
     private User author;
 
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments;
+
     private Date date_of_creation;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Long getId() {
         return id;
