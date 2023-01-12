@@ -39,16 +39,14 @@
 
             <div id="formWrapper" class="container mt-2">
                 <div class="row m-3">
-                        <form class="col-md-4 mx-auto" method="post">
+                        <form class="col-md-4 mx-auto" th:method="post" th:action="@{/question/new}" th:object="${question}">
                             <h4>New question</h4>
 
                             <label for="description">Description</label>
-                            <input type="text" name="description" class="form-control rounded-3 m-1 col-md-3" id="description">
+                            <input type="text" th:field="*{description}" class="form-control rounded-3 m-1 col-md-3" id="description">
 
                             <label for="questionInput">Text</label>
-                            <textarea name="text" cols="30" maxlength="5000" rows="10" id="questionInput" class="p-2 m-1 rounded-3 form-control"></textarea>
-
-                            <label><input type="number" value="13" style="display: none" name="user_id"></label>
+                            <textarea name="text" th:field="*{text}" cols="30" maxlength="5000" rows="10" id="questionInput" class="p-2 m-1 rounded-3 form-control"></textarea>
 
                             <label for="tagsInput">Tags</label>
                             <input type="text" name="tags" class="form-control rounded-3 m-1 col-md-3" id="tagsInput">

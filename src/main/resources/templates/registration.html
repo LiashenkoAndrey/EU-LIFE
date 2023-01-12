@@ -37,41 +37,41 @@
 
     <div id="formWrapper" class="container mt-2">
         <div class="row m-3">
-            <form class="col-md-3 mx-auto">
+            <form class="col-md-3 mx-auto" th:method="post" th:object="${user}" th:action="@{/registration}">
 
                 <div class="mb-3">
                     <label class="form-label" for="first_name">First name</label>
-                    <input type="text" id="first_name" required class="form-control" maxlength="20" name="first_name" placeholder="First name">
+                    <input type="text" id="first_name" th:field="*{first_name}" required class="form-control" maxlength="20" name="first_name" placeholder="First name">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="last_name">Last name</label>
-                    <input type="text" id="last_name" required class="form-control" name="last_name" maxlength="20" placeholder="Last name">
+                    <input type="text" id="last_name" th:field="*{last_name}" required class="form-control" name="last_name" maxlength="20" placeholder="Last name">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="university">University</label>
-                    <input type="text" id="university" required class="form-control" name="last_name" maxlength="40" placeholder="University">
+                    <label class="form-label" for="age"> Your age</label>
+                    <input type="text" id="age" th:field="*{age}"  required class="form-control" name="last_name" maxlength="40" placeholder="age">
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label" for="faculty">Faculty e.g(ФІСТ, ФЕМ)</label>
-                    <input type="text" id="faculty" required class="form-control" name="last_name" maxlength="40" placeholder="Faculty">
-                </div>
+<!--                <div class="mb-3">-->
+<!--                    <label class="form-label" for="faculty">Faculty e.g(ФІСТ, ФЕМ)</label>-->
+<!--                    <input type="text" id="faculty" required class="form-control" name="last_name" maxlength="40" placeholder="Faculty">-->
+<!--                </div>-->
 
                 <div class="mb-3">
                     <label class="form-label" for="email">Email</label>
-                    <input type="email" id="email" required class="form-control" name="email" maxlength="30"  placeholder="Email">
+                    <input type="email" id="email" th:field="*{email}"  required class="form-control" name="email" maxlength="30"  placeholder="Email">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="login">Login</label>
-                    <input type="password" id="login" required maxlength="30" minlength="4" class="form-control" name="password" placeholder="Login">
+                    <input type="password" id="login" th:field="*{login}"  required maxlength="30" minlength="4" class="form-control" name="password" placeholder="Login">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="password">Password</label>
-                    <input type="password" id="password" required maxlength="30" minlength="4" class="form-control" name="password" placeholder="Password">
+                    <input type="password" id="password" th:field="*{password}"  required maxlength="30" minlength="4" class="form-control" name="password" placeholder="Password">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Registration</button>
