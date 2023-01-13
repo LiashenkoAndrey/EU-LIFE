@@ -39,6 +39,10 @@ public class Comment {
     @Nullable
     private Comment comment;
 
+    @ManyToOne
+    @Nullable
+    private Article article;
+
     @OneToMany(mappedBy = "comment")
     @Nullable
     private List<Comment> commentList;
