@@ -1,13 +1,10 @@
 package eulife.controllers;
 
-import eulife.domain.Answer;
 import eulife.domain.Comment;
 import eulife.domain.Question;
 import eulife.domain.User;
-import eulife.repositories.AnswerRepository;
-import eulife.repositories.CommentRepository;
 import eulife.repositories.QuestionRepository;
-import eulife.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -23,12 +20,10 @@ import java.util.Date;
 public class QuestionController {
 
     private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;
 
 
-    public QuestionController(QuestionRepository questionRepository, AnswerRepository answerRepository) {
+    public QuestionController(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
-        this.answerRepository = answerRepository;
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
@@ -53,8 +48,7 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public String showQuestion(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("question", questionRepository.findById(id).get());
-        model.addAttribute("answers", answerRepository.findAnswersByQuestionId(id));
+        model.addAttribute("question", questionRepository.findById(id).orElseThrow(EntityNotFoundException::new));
         model.addAttribute("comment", new Comment());
         return "question";
     }
