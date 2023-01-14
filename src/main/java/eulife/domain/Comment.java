@@ -12,10 +12,9 @@ import java.util.List;
 @Table(name = "comments")
 public class Comment {
 
-    public Comment(String text, User author, Answer answer, Date date_of_creation) {
+    public Comment(String text, User author, Date date_of_creation) {
         this.text = text;
         this.author = author;
-        this.answer = answer;
         this.date_of_creation = date_of_creation;
     }
 
@@ -33,7 +32,7 @@ public class Comment {
 
     @ManyToOne
     @Nullable
-    private Answer answer;
+    private Question question;
 
     @ManyToOne
     @Nullable
@@ -46,6 +45,22 @@ public class Comment {
     @OneToMany(mappedBy = "comment")
     @Nullable
     private List<Comment> commentList;
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
 
     public Comment getComment() {
         return comment;
@@ -93,11 +108,5 @@ public class Comment {
         this.author = author;
     }
 
-    public Answer getAnswer() {
-        return answer;
-    }
 
-    public void setAnswer(Answer answer) {
-        this.answer = answer;
-    }
 }

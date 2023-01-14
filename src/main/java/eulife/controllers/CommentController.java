@@ -3,8 +3,10 @@ package eulife.controllers;
 
 import eulife.domain.Comment;
 import eulife.domain.User;
-import eulife.repositories.AnswerRepository;
+import eulife.repositories.ArticleRepository;
 import eulife.repositories.CommentRepository;
+import eulife.repositories.QuestionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,31 +15,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.NotActiveException;
 import java.util.Date;
 
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
     private final CommentRepository commentRepository;
-    private final AnswerRepository answerRepository;
+    private final QuestionRepository questionRepository;
 
-    public CommentController(CommentRepository commentRepository, AnswerRepository answerRepository) {
+    private final ArticleRepository articleRepository;
+
+    public CommentController(CommentRepository commentRepository, QuestionRepository questionRepository, ArticleRepository articleRepository) {
         this.commentRepository = commentRepository;
-        this.answerRepository = answerRepository;
+        this.questionRepository = questionRepository;
+        this.articleRepository = articleRepository;
     }
 
 
     @PostMapping("/new")
     public RedirectView newComment(
             @ModelAttribute("comment") Comment comment,
-            @RequestParam(value = "answer_id", required = false) Long answer_id,
+            @RequestParam(value = "question_id", required = false) Long question_id,
             @RequestParam(value = "comment_id", required = false) Long comment_id,
+            @RequestParam(value = "article_id", required = false) Long article_id,
             Authentication auth) {
 
         comment.setAuthor((User) auth.getPrincipal());
-        if (comment_id != null) comment.setComment(commentRepository.findById(comment_id).get());
-        if (answer_id != null) comment.setAnswer(answerRepository.findById(answer_id).get());
+        if (question_id != null) comment.setQuestion(questionRepository.findById(question_id).orElseThrow(EntityNotFoundException::new));
+        if (article_id != null) comment.setArticle(articleRepository.findById(article_id).orElseThrow(EntityNotFoundException::new));
+        if (comment_id != null) comment.setComment(commentRepository.findById(comment_id).orElseThrow(EntityNotFoundException::new));
         comment.setDate_of_creation(new Date());
+
 
         commentRepository.save(comment);
 
