@@ -68,10 +68,10 @@
 
         <hr>
         <h4 class="text-center">Answers</h4>
-        <div class="mb-5" th:each="answer : ${answers}">
+        <div class="mb-5" th:each="comment : ${question.comments}">
             <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
-            <a href="" th:text="${answer.author.first_name}"></a>
-            <div th:text="${answer.text}"></div>
+            <a href="" th:text="${comment.author.first_name}"></a>
+            <div th:text="${comment.text}"></div>
             <div class="text-info">
                 <span class="smiley">&#128077</span>
                 <span class="smiley">&#128078</span>
@@ -81,15 +81,15 @@
                         <h4 class="text-center">Your answer</h4>
                         <label for="comment1"></label>
                         <textarea cols="30" rows="10" id="comment1" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-                        <label><input type="text" name="answer_id" th:value="${answer.id}" style="display: none"></label>
+                        <label><input type="text" name="comment_id" th:value="${comment.id}" style="display: none"></label>
                         <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
                     </form>
             </div>
 
-            <div class="ms-5 mt-1" th:each="comment : ${answer.comments}">
+            <div class="ms-5 mt-1" th:each="comment1 : ${comment.commentList}">
                 <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
-                <a href="" class="link" th:text="${comment.author.first_name}"></a>
-                <div th:text="${comment.text}"></div>
+                <a href="" class="link" th:text="${comment1.author.first_name}"></a>
+                <div th:text="${comment1.text}"></div>
                 <div class="text-info">
                     <span class="smiley">&#128077</span>
                     <span class="smiley">&#128078</span>
@@ -99,15 +99,15 @@
                         <h4 class="text-center">Your answer</h4>
                         <label for="comment2"></label>
                         <textarea cols="30" rows="10" id="comment2" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-                        <label><input type="text" name="comment_id" th:value="${comment.id}" style="display: none"></label>
+                        <label><input type="text" name="comment_id" th:value="${comment1.id}" style="display: none"></label>
                         <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
                     </form>
                 </div>
 
-                <div class="ms-5 mt-1" th:each="comment : ${comment.commentList}">
+                <div class="ms-5 mt-1" th:each="comment2 : ${comment1.commentList}">
                     <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
-                    <a href="" class="link" th:text="${comment.author.first_name}"></a>
-                    <div th:text="${comment.text}"></div>
+                    <a href="" class="link" th:text="${comment2.author.first_name}"></a>
+                    <div th:text="${comment2.text}"></div>
                     <div class="text-info">
                         <span class="smiley">&#128077</span>
                         <span class="smiley">&#128078</span>
@@ -117,7 +117,7 @@
                             <h4 class="text-center">Your answer</h4>
                             <label for="comment"></label>
                             <textarea cols="30" rows="10" id="comment" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-                            <label><input type="text" name="comment_id" th:value="${comment.id}" style="display: none"></label>
+                            <label><input type="text" name="comment_id" th:value="${comment2.id}" style="display: none"></label>
                             <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
                         </form>
                     </div>
@@ -129,7 +129,7 @@
             </div>
         </div>
 
-        <form th:action="@{/answer/new}" th:method="post" class="row" >
+        <form th:action="@{/comment/new}" th:method="post" class="row" >
             <h4 class="text-center">Your answer</h4>
             <label for="answer"></label>
             <textarea cols="30" rows="10" id="answer" name="text"  class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
