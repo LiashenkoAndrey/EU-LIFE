@@ -60,25 +60,27 @@
                 <div class="col-md-8">
                     <div class="container my-3  ">
                         <p class="text-end m-0">date: 12:03:2020</p>
-                        <h4>Hello world!!!</h4>
+                        <h4 th:text="${article.topic}"></h4>
                     </div>
-                    <div class="container my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum temporibus expedita reprehenderit dolorum dolorem dicta officiis, est consectetur veritatis nostrum odio dignissimos facilis? Sequi, veritatis consequuntur laudantium numquam doloremque expedita!</div>                    
-                    <div class="container my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum temporibus expedita reprehenderit dolorum dolorem dicta officiis, est consectetur veritatis nostrum odio dignissimos facilis? Sequi, veritatis consequuntur laudantium numquam doloremque expedita!</div>
-
-                    <div class="container my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum temporibus expedita reprehenderit dolorum dolorem dicta officiis, est consectetur veritatis nostrum odio dignissimos facilis? Sequi, veritatis consequuntur laudantium numquam doloremque expedita!</div>                    
-                    <div class="container my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum temporibus expedita reprehenderit dolorum dolorem dicta officiis, est consectetur veritatis nostrum odio dignissimos facilis? Sequi, veritatis consequuntur laudantium numquam doloremque expedita!</div>                    
-                    <div class="container my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum temporibus expedita reprehenderit dolorum dolorem dicta officiis, est consectetur veritatis nostrum odio dignissimos facilis? Sequi, veritatis consequuntur laudantium numquam doloremque expedita!</div>                    
-                    <div class="container my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum temporibus expedita reprehenderit dolorum dolorem dicta officiis, est consectetur veritatis nostrum odio dignissimos facilis? Sequi, veritatis consequuntur laudantium numquam doloremque expedita!</div>                    
-                    
+                    <div class="container my-3" th:text="${article.text}"></div>
                     <hr>
+                    <h4 class="text-center">Comments</h4>
+                    <div class="ms-5 mt-1" th:each="comment : ${comments}">
+                        <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
+                        <a href="" class="link" th:text="${comment.author.first_name}"></a>
+                        <div th:text="${comment.text}"></div>
+                    </div>
+
                     <div class="mb-5 row">
-                        <form action="#" method="post" class="row comment_form">
+                        <form th:action="@{/comment/new}" method="post" >
                             <h4 class="text-center">Leave comment</h4>
                             <label for="comment"></label>
                             <textarea name="text" cols="30" rows="10" id="comment" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                            <label><input type="text"  th:value="${article.id}"  name="article_id"  style="display: none"></label>
                             <label><input type="submit" value="Answer" class="mx-auto m-2" style="display: block;"></label>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
