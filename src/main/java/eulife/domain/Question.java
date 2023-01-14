@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Entity
@@ -32,8 +33,19 @@ public class Question {
 
     private String description;
 
+    @OneToMany(mappedBy = "question")
+    private List<Comment> comments;
+
     public String getDescription() {
         return description;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public void setDescription(String description) {
