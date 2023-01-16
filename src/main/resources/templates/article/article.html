@@ -13,7 +13,7 @@
        
 
             <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
-                    <a href="#" class="navbar-brand">
+                    <a href="/" class="navbar-brand">
                         <img th:src="@{img/logo.png}" alt="" width="80" height="80" class="m-2">
                     </a>
 
@@ -23,14 +23,13 @@
                     
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
-                            <a href="#" class="nav-item nav-link active">Home</a>
-                            <a href="#" class="nav-item nav-link">Profile</a>
-                            <a href="#" class="nav-item nav-link">Messages</a>
-                            <a href="#" class="nav-item nav-link disabled">Reports</a>
+                            <a href="/profile" class="nav-item nav-link active">My profile</a>
+                            <a href="/question" class="nav-item nav-link active">Questions</a>
+                            <a href="/article/all" class="nav-item nav-link active">Articles</a>
                         </div>
                         <div class="navbar-nav ms-auto">
-                            <a href="#" class="nav-item nav-link">Login</a>
-                            <a href="#" class="nav-item nav-link">Registration</a>
+                            <a href="/login" class="nav-item nav-link">Login</a>
+                            <a href="/registration" class="nav-item nav-link">Registration</a>
                         </div>
                     </div>
 

@@ -14,7 +14,7 @@
     <div id="wrapper" class="container  py-3 my-3 text-light">
 
             <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
-                    <a href="/" class="navbar-brand">
+                    <a href="/static" class="navbar-brand">
                         <img th:src="@{/img/logo.png}" alt="logo" width="80" height="80" class="m-2">
                     </a>
 
@@ -24,14 +24,13 @@
                     
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
-                            <a href="#" class="nav-item nav-link active">Home</a>
-                            <a href="#" class="nav-item nav-link">Profile</a>
-                            <a href="#" class="nav-item nav-link">Messages</a>
-                            <a href="#" class="nav-item nav-link disabled">Reports</a>
+                            <a href="/profile" class="nav-item nav-link active">My profile</a>
+                            <a href="/question" class="nav-item nav-link active">Questions</a>
+                            <a href="/article/all" class="nav-item nav-link active">Articles</a>
                         </div>
-                        <div class="navbar-nav ms-auto">
-                            <a href="#" class="nav-item nav-link">Login</a>
-                            <a href="#" class="nav-item nav-link">Registration</a>
+                        <div  class="navbar-nav ms-auto">
+                            <a href="/profile" th:text="${user.first_name + user.last_name}"></a>
+                            <img th:src="@{img/user.jpg}" width="60" height="60" class="rounded-3" alt="user_image">
                         </div>
                     </div>
 

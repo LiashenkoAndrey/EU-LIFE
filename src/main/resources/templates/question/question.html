@@ -15,7 +15,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
         <a href="/" class="navbar-brand">
-            <img th:src="@{/img/logo.png}" alt="" width="80" height="80" class="m-2">
+            <img th:src="@{/img/logo.png}" alt="logo" width="80" height="80" class="m-2">
         </a>
 
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -24,14 +24,13 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a href="#" class="nav-item nav-link active">Home</a>
-                <a href="#" class="nav-item nav-link">Profile</a>
-                <a href="#" class="nav-item nav-link">Messages</a>
-                <a href="#" class="nav-item nav-link disabled">Reports</a>
+                <a href="/profile" class="nav-item nav-link active">My profile</a>
+                <a href="/question" class="nav-item nav-link active">Questions</a>
+                <a href="/article/all" class="nav-item nav-link active">Articles</a>
             </div>
             <div class="navbar-nav ms-auto">
-                <a href="#" class="nav-item nav-link">Login</a>
-                <a href="#" class="nav-item nav-link">Registration</a>
+                <a href="/login" class="nav-item nav-link">Login</a>
+                <a href="/registration" class="nav-item nav-link">Registration</a>
             </div>
         </div>
 
@@ -51,7 +50,7 @@
                 </li>
 
                 <li class="border rounded-3 my-3 p-2 bg-secondary">
-                    <a href="#">New article</a>
+                    <a href="/article/new">New article</a>
                 </li>
 
                 <li class="border rounded-3 my-3 p-2 bg-secondary">
@@ -70,14 +69,14 @@
         <h4 class="text-center">Answers</h4>
         <div class="mb-5" th:each="comment : ${question.comments}">
             <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
-            <a href="" th:text="${comment.author.first_name}"></a>
+            <a th:href="@{user/{id}(${comment.author.id})}" th:text="${comment.author.first_name}"></a>
             <div th:text="${comment.text}"></div>
             <div class="text-info">
                 <span class="smiley">&#128077</span>
                 <span class="smiley">&#128078</span>
                 <div class="reply">Reply</div>
 
-                    <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${comment}" >
+                    <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${new_comment}" >
                         <h4 class="text-center">Your answer</h4>
                         <label for="comment1"></label>
                         <textarea cols="30" rows="10" id="comment1" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>

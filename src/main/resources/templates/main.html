@@ -23,15 +23,22 @@
                     
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
-                            <a href="#" class="nav-item nav-link active">Home</a>
-                            <a href="#" class="nav-item nav-link active">Profile</a>
+                            <a href="/profile" class="nav-item nav-link active">My profile</a>
                             <a href="/question" class="nav-item nav-link active">Questions</a>
                             <a href="/article/all" class="nav-item nav-link active">Articles</a>
                         </div>
-                        <div class="navbar-nav ms-auto">
-                            <a href="/log-in" class="nav-item nav-link">Login</a>
+
+                        <div th:if="authenticated == true" class="navbar-nav ms-auto">
+                            <a href="/profile" th:text="${user.first_name + user.last_name}"></a>
+                            <img th:src="@{img/user.jpg}" width="60" height="60" class="rounded-3" alt="user_image">
+                        </div>
+                        <div th:unless="authenticated == false" class="navbar-nav ms-auto">
+                            <a href="/login" class="nav-item nav-link">Login</a>
                             <a href="/registration" class="nav-item nav-link">Registration</a>
                         </div>
+
+
+
                     </div>
 
             </nav>
