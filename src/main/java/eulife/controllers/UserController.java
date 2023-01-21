@@ -1,58 +1,84 @@
 package eulife.controllers;
 
-import eulife.domain.Role;
+import eulife.domain.Image;
 import eulife.domain.User;
-import eulife.repositories.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import eulife.domain.dto.UserDetailsDto;
+import eulife.domain.dto.UserDto;
+import eulife.services.UserService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/user")
+@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/image/get/{user_id}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("user_id") Long user_id) {
+        Image image = userService.getImageByUserId(user_id);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(image.getBinary_image());
+    }
+
+    @PostMapping("/image/update")
+    public String updateImage(@RequestParam("file") MultipartFile file, Authentication auth) {
+        userService.updateImage(file, (User) auth.getPrincipal());
+        return "redirect:/user/edit";
     }
 
 
-    @GetMapping
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    @PostMapping("/update")
+    public RedirectView update(@ModelAttribute("user_details_dto") UserDetailsDto userDetailsDto, Authentication auth) {
+        userService.updateDetails(userDetailsDto,(User) auth.getPrincipal());
+        return new RedirectView("user");
     }
 
 
-    @GetMapping("/id")
-    public Optional<User> getUsers(@RequestParam("id") Long id) {
-        return userRepository.findById(id);
+    @GetMapping("/edit")
+    public String edit(Model model, Authentication auth) {
+        model.addAttribute("user", auth.getPrincipal());
+        model.addAttribute("update_user", new UserDto());
+        model.addAttribute("update_user_details", new UserDetailsDto());
+        return "user_page/edit";
     }
 
 
-    @GetMapping("/new")
-    public void newUser() {
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(new Role("USER"));
-        User maryna = new User.UserBuilder()
-                .setAge(19)
-                .setEmail("maruna@gmail.com")
-                .setPassword("maryna")
-                .setLogin("maryna")
-                .setFirst_name("maryna")
-                .setLast_name("Gordon")
-                .setDate_of_creation(new Date())
-                .setRole(roles)
-                .build();
-
-        userRepository.save(maryna);
+    @GetMapping("/delete")
+    public String delete() {
+        return "user_page/delete";
     }
 
+    @GetMapping("/notification")
+    public String notificationSettings() {
+        return "user_page/notification";
+    }
+
+    @GetMapping("/password")
+    public String changePassword() {
+        return "user_page/password";
+    }
+
+    @GetMapping("/theme")
+    public String editTheme() {
+        return "user_page/theme";
+    }
+
+    @GetMapping("/cookies")
+    public String editCookies() {
+        return "user_page/cookies";
+    }
 }

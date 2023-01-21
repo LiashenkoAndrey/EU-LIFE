@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,20 +29,23 @@ public class ArticleController {
         this.commentRepository = commentRepository;
     }
 
-
     @GetMapping("/new")
-    public String newArticle(Model model) {
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public String newArticle(Model model, Authentication auth) {
+        model.addAttribute("user", auth.getPrincipal());
         model.addAttribute("article", new Article());
-        return "newArticle";
+        return "article/newArticle";
     }
 
 
-
     @PostMapping("/new")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public RedirectView postArticle(@ModelAttribute("article") Article article, Authentication auth) {
-        article.setDate_of_creation(new Date());
-        article.setAuthor((User) auth.getPrincipal());
 
+        article.setDate_of_creation(new Date());
+
+        assert auth != null;
+        article.setAuthor((User) auth.getPrincipal());
         articleRepository.save(article);
         return new RedirectView("/");
     }
@@ -49,22 +53,19 @@ public class ArticleController {
     @GetMapping("/all")
     public String getArticles (@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageIndex,
                                       @PageableDefault(size = 2)Pageable pageable,
-                                      Model model) {
+                                      Model model, Authentication auth) {
         Page<Article> articlePages = articleRepository.findAll(pageable.withPage(pageIndex));
         model.addAttribute("articles", articlePages.toList());
         model.addAttribute("pagesQuantity", articlePages.getTotalPages()-1);
-        System.out.println(articlePages.toList());
-        System.out.println(articlePages.getTotalPages());
 
-        return "ArticlesList";
+        return "article/ArticlesList";
     }
-
 
     @GetMapping("/{id}")
     public String showArticle(@PathVariable("id") Long id, Model model) {
         model.addAttribute("article", articleRepository.findById(id).orElseThrow(EntityNotFoundException::new));
         model.addAttribute("comments",commentRepository.findCommentsByArticle_Id(id));
-        return "article";
+        return "article/article";
     }
 
 }

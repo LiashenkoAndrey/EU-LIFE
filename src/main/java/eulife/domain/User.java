@@ -3,7 +3,6 @@ package eulife.domain;
 
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CollectionType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -26,22 +25,29 @@ public class User implements UserDetails {
     private String first_name;
     private String last_name;
 
-    private int age;
     private String email;
     private String login;
     private String password;
 
     private Date date_of_creation;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private eulife.domain.UserDetails user_details;
+
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
     private List<Role> role = new ArrayList<>();
 
-    private final transient String full_name = first_name + " " + last_name;
 
-    public String getFull_name() {
-        return full_name;
+    public eulife.domain.UserDetails getUser_details() {
+        return user_details;
     }
+
+    public void setUser_details(eulife.domain.UserDetails user_details) {
+        this.user_details = user_details;
+    }
+
 
     public List<Role> getRole() {
         return role;
@@ -82,13 +88,7 @@ public class User implements UserDetails {
         this.date_of_creation = date_of_creation;
     }
 
-    public int getAge() {
-        return age;
-    }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     public String getEmail() {
         return email;
@@ -147,7 +147,6 @@ public class User implements UserDetails {
     public User(UserBuilder builder) {
         this.first_name = builder.first_name;
         this.last_name = builder.last_name;
-        this.age = builder.age;
         this.email = builder.email;
         this.login = builder.login;
         this.password = builder.password;
@@ -160,10 +159,8 @@ public class User implements UserDetails {
         public UserBuilder() {
         }
 
-        private Long id;
         private String first_name;
         private String last_name;
-        private int age;
         private String email;
         private String login;
         private String password;
@@ -183,10 +180,6 @@ public class User implements UserDetails {
             return this;
         }
 
-        public UserBuilder setAge(int age) {
-            this.age = age;
-            return this;
-        }
 
         public UserBuilder setEmail(String email) {
             this.email = email;

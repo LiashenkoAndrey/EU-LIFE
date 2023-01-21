@@ -2,16 +2,12 @@ package eulife.domain;
 
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
-
-import javax.xml.crypto.Data;
 import java.util.Date;
-import java.util.List;
 
 @Component
 @Entity
 @Table(name = "articles")
 public class Article {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +20,11 @@ public class Article {
     @ManyToOne
     private User author;
 
-
     public Long getId() {
         return id;
     }
 
-
     private Date date_of_creation;
-
-
 
     public Date getDate_of_creation() {
         return date_of_creation;

@@ -12,6 +12,6 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/page")
     public String get() {
-        return "admin_page";
+        return "admin/admin_page";
     }
 }

@@ -6,149 +6,153 @@
     <title th:text="${question.description}"></title>
     <link rel="stylesheet" th:href="@{/styles/main.css}">
     <link rel="stylesheet" th:href="@{/styles/question.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{img/icon.png}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body class="bg-dark">
+    <style th:inline="text">
+        body {   background: url([[@{/img/background.svg}]]) no-repeat center center fixed;  }
+    </style>
 
-<div id="wrapper" class="container  py-3 my-3 text-light">
+    <div id="wrapper" class="container  py-3 my-3 text-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
+            <a href="/" class="navbar-brand">
+                <img th:src="@{/img/logo.png}" alt="logo" width="80" height="80" class="m-2">
+            </a>
 
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
-        <a href="/" class="navbar-brand">
-            <img th:src="@{/img/logo.png}" alt="logo" width="80" height="80" class="m-2">
-        </a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
 
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav">
-                <a href="/profile" class="nav-item nav-link active">My profile</a>
-                <a href="/question" class="nav-item nav-link active">Questions</a>
-                <a href="/article/all" class="nav-item nav-link active">Articles</a>
-            </div>
-            <div class="navbar-nav ms-auto">
-                <a href="/login" class="nav-item nav-link">Login</a>
-                <a href="/registration" class="nav-item nav-link">Registration</a>
-            </div>
-        </div>
-
-    </nav>
-
-
-
-    <div id="navbarAndContentWrapper" class="container mt-2">
-        <div class="row m-3">
-            <ul class="list-unstyled col-md-1 " id="nav-list">
-                <li class="border rounded-3 my-3 p-2 bg-secondary ">
-                    <a href="/user">My Profile</a>
-                </li>
-
-                <li class="border rounded-3 my-3 p-2 bg-secondary">
-                    <a href="/question/new">New question</a>
-                </li>
-
-                <li class="border rounded-3 my-3 p-2 bg-secondary">
-                    <a href="/article/new">New article</a>
-                </li>
-
-                <li class="border rounded-3 my-3 p-2 bg-secondary">
-                    <a href="#">Info</a>
-                </li>
-            </ul>
-            <div class="col-md-8">
-                <div class="container my-3">
-                    <p class="text-end m-0" th:text="${question.date_of_creation}"></p>
-                    <h3 class="container my-3" th:text="${question.description}"></h3>
+                <div class="navbar-nav">
+                    <a href="/profile" class="nav-item nav-link active">My profile</a>
+                    <a href="/question" class="nav-item nav-link active">Questions</a>
+                    <a href="/article/all" class="nav-item nav-link active">Articles</a>
                 </div>
-                <div class="container my-3" th:text="${question.text}"></div>
 
+                <div th:if="${authenticated}" class="navbar-nav ms-auto">
+                    <a href="/user/edit" class="naw-item nav-link text-dark" th:text="${user.first_name + ' ' + user.last_name}"></a>
+                    <img th:src="@{/user/image/get/{user_id}(user_id=${user.id})}"
+                         width="80" height="80" class="rounded-3" alt="user_image">
+                </div>
 
-        <hr>
-        <h4 class="text-center">Answers</h4>
-        <div class="mb-5" th:each="comment : ${question.comments}">
-            <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
-            <a th:href="@{user/{id}(${comment.author.id})}" th:text="${comment.author.first_name}"></a>
-            <div th:text="${comment.text}"></div>
-            <div class="text-info">
-                <span class="smiley">&#128077</span>
-                <span class="smiley">&#128078</span>
-                <div class="reply">Reply</div>
+                <div th:unless="${authenticated}" class="navbar-nav ms-auto">
+                    <a href="/login" class="nav-item nav-link">Login</a>
+                    <a href="/registration" class="nav-item nav-link">Registration</a>
+                </div>
 
-                    <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${new_comment}" >
-                        <h4 class="text-center">Your answer</h4>
-                        <label for="comment1"></label>
-                        <textarea cols="30" rows="10" id="comment1" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-                        <label><input type="text" name="comment_id" th:value="${comment.id}" style="display: none"></label>
-                        <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
-                    </form>
             </div>
+        </nav>
 
-            <div class="ms-5 mt-1" th:each="comment1 : ${comment.commentList}">
-                <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
-                <a href="" class="link" th:text="${comment1.author.first_name}"></a>
-                <div th:text="${comment1.text}"></div>
+        <div class="container mt-2">
+            <div class="row m-3 rounded-3" id="box">
+                <div class="col-md-2">
+                    <div class="naw flex-column border border-secondary text-center px-0 mt-2 rounded-3 "  id="navigation">
+                        <div class=" h6 text-secondary mt-2">Global</div>
+                        <a href="" class="naw-item nav-link   text-white h6"> <i class="bi bi-pen h5"></i> Write article</a>
+                        <a href="" class="naw-item nav-link text-white h6"> <i class="bi bi-question-circle h5"></i> Ask question</a>
+                        <a href="" class="naw-item nav-link  text-white h6"> <i class='fas fa-graduation-cap' style='font-size:20px'></i> Students</a>
+                        <a href="" class="naw-item nav-link  text-white h6"> <i class="fas fa-school" style='font-size:20px'></i> Universities</a>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="container my-3">
+                        <p class="text-end m-0" th:text="${question.date_of_creation}"></p>
+                        <h3 class="container my-3" th:text="${question.description}"></h3>
+                    </div>
+                    <div class="container my-3" th:text="${question.text}"></div>
+
+            <hr>
+            <h4 class="text-center">Answers</h4>
+            <div class="mb-5" th:each="comment : ${question.comments}">
+
+                <img th:src="@{/user/image/get/{user_id}(user_id=${comment.author.id})}" width="50" height="50" class="rounded" alt="user image">
+                <a th:href="@{../user_page/{id}(${comment.author.id})}" th:text="${comment.author.first_name}"></a>
+                <div th:text="${comment.text}"></div>
+
                 <div class="text-info">
-                    <span class="smiley">&#128077</span>
-                    <span class="smiley">&#128078</span>
+                    <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment.id}, true)|" th:inline="text" >[[${comment.getLikes()}]] &#128077 Like</button>
+                    <button class="ratingBar" th:attr="onclick=|saveOrUpdateRating(${comment.id}, false)|" th:inline="text" >[[${comment.getDislikes()}]] &#128078 Dislike</button>
                     <div class="reply">Reply</div>
 
-                    <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${comment}" >
-                        <h4 class="text-center">Your answer</h4>
-                        <label for="comment2"></label>
-                        <textarea cols="30" rows="10" id="comment2" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-                        <label><input type="text" name="comment_id" th:value="${comment1.id}" style="display: none"></label>
-                        <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
-                    </form>
+                        <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${new_comment}" >
+                            <h4 class="text-center">Your answer</h4>
+                            <label for="comment1"></label>
+                            <textarea cols="30" rows="10" id="comment1" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                            <label><input type="text" name="comment_id" th:value="${comment.id}" style="display: none"></label>
+                            <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
+                        </form>
                 </div>
 
-                <div class="ms-5 mt-1" th:each="comment2 : ${comment1.commentList}">
-                    <img th:src="@{/img/user.jpg}" width="50" height="50" class="rounded" alt="user image">
-                    <a href="" class="link" th:text="${comment2.author.first_name}"></a>
-                    <div th:text="${comment2.text}"></div>
+                <div class="ms-5 mt-1" th:each="comment1 : ${comment.commentList}">
+
+                    <img th:src="@{/user/image/get/{user_id}(user_id=${comment1.author.id})}" width="50" height="50" class="rounded" alt="user image">
+                    <a href="" class="link" th:text="${comment1.author.first_name}"></a>
+                    <div th:text="${comment1.text}"></div>
+
                     <div class="text-info">
-                        <span class="smiley">&#128077</span>
-                        <span class="smiley">&#128078</span>
+                        <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment.id}, true)|" th:inline="text" >[[${comment1.getLikes()}]] &#128077 Like</button>
+                        <button class="ratingBar" th:attr="onclick=|saveOrUpdateRating(${comment.id}, false)|" th:inline="text" >[[${comment1.getDislikes()}]] &#128078 Dislike</button>
                         <div class="reply">Reply</div>
 
                         <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${comment}" >
                             <h4 class="text-center">Your answer</h4>
-                            <label for="comment"></label>
-                            <textarea cols="30" rows="10" id="comment" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-                            <label><input type="text" name="comment_id" th:value="${comment2.id}" style="display: none"></label>
+                            <label for="comment2"></label>
+                            <textarea cols="30" rows="10" id="comment2" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                            <label><input type="text" name="comment_id" th:value="${comment1.id}" style="display: none"></label>
                             <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
                         </form>
                     </div>
 
+                    <div class="ms-5 mt-1" th:each="comment2 : ${comment1.commentList}">
+                        <img th:src="@{/user/image/get/{user_id}(user_id=${comment2.author.id})}" width="50" height="50" class="rounded" alt="user image">
+                        <a href="" class="link" th:text="${comment2.author.first_name}"></a>
+                        <div th:text="${comment2.text}"></div>
 
+                        <div class="text-info">
+                            <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment.id}, true)|" th:inline="text" >[[${comment2.getLikes()}]] &#128077 Like</button>
+                            <button class="ratingBar" th:attr="onclick=|saveOrUpdateRating(${comment.id}, false)|" th:inline="text" >[[${comment2.getDislikes()}]] &#128078 Dislike</button>
+                            <div class="reply">Reply</div>
+
+                            <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${comment}" >
+                                <h4 class="text-center">Your answer</h4>
+                                <label for="comment"></label>
+                                <textarea cols="30" rows="10" id="comment" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                                <label><input type="text" name="comment_id" th:value="${comment2.id}" style="display: none"></label>
+                                <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <form th:action="@{/comment/new}" th:method="post" class="row" >
+                    <h4 class="text-center">Your answer</h4>
+                    <label for="answer"></label>
+                    <textarea cols="30" rows="10" id="answer" name="text"  class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                    <label><input type="text"  th:value="${question.id}"  name="question_id"  style="display: none"></label>
+                    <label><input type="submit" value="Answer" class="mx-auto m-2" style="display: block;"></label>
+                </form>
 
                 </div>
-
             </div>
         </div>
 
-        <form th:action="@{/comment/new}" th:method="post" class="row" >
-            <h4 class="text-center">Your answer</h4>
-            <label for="answer"></label>
-            <textarea cols="30" rows="10" id="answer" name="text"  class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-            <label><input type="text"  th:value="${question.id}"  name="question_id"  style="display: none"></label>
-            <label><input type="submit" value="Answer" class="mx-auto m-2" style="display: block;"></label>
-        </form>
-
+            <div id="footer" class="container mt-5" style="height: 200px;">
+                <hr>
+                <h4>eu-life.info</h4>
+                <p>Information</p>
+                <p>Contacts</p>
+                <p>About us<p>
             </div>
-        </div>
     </div>
 
-    <div id="footer" class="container mt-5" style="height: 200px;">
-        <hr>
-        <h4>eu-life.info</h4>
-        <p>Information</p>
-        <p>Contacts</p>
-        <p>About us<p>
-    </div>
-    </div>
-<script th:src="@{/scripts/reply.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
+        <script th:src="@{/scripts/reply.js}"></script>
+        <script th:src="@{/scripts/saveOrUpdateLikes.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    </body>
 </html>

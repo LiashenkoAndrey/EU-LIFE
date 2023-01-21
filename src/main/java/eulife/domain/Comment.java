@@ -12,6 +12,9 @@ import java.util.List;
 @Table(name = "comments")
 public class Comment {
 
+
+
+
     public Comment(String text, User author, Date date_of_creation) {
         this.text = text;
         this.author = author;
@@ -46,8 +49,26 @@ public class Comment {
     @Nullable
     private List<Comment> commentList;
 
+    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
+    private List<Rating> ratingList;
+
+    public Long getLikes() {
+        return ratingList.stream().filter(Rating::is_like).count();
+    }
+
+    public Long getDislikes() {
+        return ratingList.stream().filter(rating -> !rating.is_like()).count();
+    }
     public Question getQuestion() {
         return question;
+    }
+
+    public List<Rating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(List<Rating> ratingList) {
+        this.ratingList = ratingList;
     }
 
     public void setQuestion(Question question) {

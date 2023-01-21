@@ -7,6 +7,7 @@ import eulife.repositories.ArticleRepository;
 import eulife.repositories.CommentRepository;
 import eulife.repositories.QuestionRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,12 +35,15 @@ public class CommentController {
 
 
     @PostMapping("/new")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public RedirectView newComment(
             @ModelAttribute("comment") Comment comment,
             @RequestParam(value = "question_id", required = false) Long question_id,
             @RequestParam(value = "comment_id", required = false) Long comment_id,
             @RequestParam(value = "article_id", required = false) Long article_id,
             Authentication auth) {
+
+        assert auth != null;
 
         comment.setAuthor((User) auth.getPrincipal());
         if (question_id != null) comment.setQuestion(questionRepository.findById(question_id).orElseThrow(EntityNotFoundException::new));

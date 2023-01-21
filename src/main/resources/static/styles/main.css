@@ -1,5 +1,11 @@
 
+#navigation  a:hover{
+    background-color: rgba(206, 206, 10, 0.62);
+}
 
+#box {
+    background-color: rgba(52, 58, 64, 0.89);
+}
 
 #nav-list li a {
     color: black;
@@ -16,3 +22,14 @@
         display: none;
     }
 }
+
+.ratingBar {
+    background: none;
+    border: none;
+    color: white;
+}
+
+.ratingBar:hover {
+    background: #545454;
+}
+

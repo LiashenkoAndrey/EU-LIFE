@@ -1,7 +1,8 @@
 package eulife.domain.dto;
 
-
 public class UserDetailsDto {
+
+
 
     private String university;
 

@@ -26,6 +26,17 @@ public class UserDetails {
     @Nullable
     private String site;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
     public UserDetails() {
     }
 
