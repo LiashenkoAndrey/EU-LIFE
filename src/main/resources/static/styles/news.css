@@ -1,0 +1,22 @@
+.news {
+    text-decoration: none;
+    color: white;
+
+}
+
+.news a {
+    color: white;
+    text-decoration: none;
+}
+
+.news a:hover {
+    color: rgb(210, 207, 207);
+}
+
+.truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+    width: 250px;
+    overflow: hidden;
+}

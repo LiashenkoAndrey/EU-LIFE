@@ -5,6 +5,8 @@ import eulife.repositories.QuestionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class QuestionService {
 
@@ -21,5 +23,9 @@ public class QuestionService {
 
     public Question findById(Long id) {
         return questionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<Question> findAll() {
+        return questionRepository.findAll();
     }
 }

@@ -2,9 +2,11 @@ package eulife.config;
 
 import eulife.repositories.UserRepository;
 import eulife.services.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,18 +29,28 @@ public class SecurityConfig {
         this.userRepository = userRepository;
     }
 
+//    @Autowired
+//    @Bean
+//    AuthenticationManager authenticationManager(HttpSecurity httpSecurity,
+//                                                UserDetailsService userDetailsService,
+//                                                BCryptPasswordEncoder encoder) throws Exception {
+//
+//        var authManager = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+//        authManager
+//                .userDetailsService(userDetailsService)
+//                .passwordEncoder(encoder);
+//        return authManager.build();
+//    }
+
 
     @Bean
-    AuthenticationManager authenticationManager(HttpSecurity httpSecurity,
-                                                UserDetailsService userDetailsService,
-                                                BCryptPasswordEncoder encoder) throws Exception {
-
-        var authManager = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-        authManager
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(encoder);
-        return authManager.build();
+    DaoAuthenticationProvider daoAuthenticationProvider() {
+        var provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(bCryptPasswordEncoder());
+        provider.setUserDetailsService(userDetailsService());
+        return provider;
     }
+
 
 
     @Bean
@@ -54,7 +66,9 @@ public class SecurityConfig {
                 .requestMatchers(staticResources).permitAll()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin().failureUrl("/login?error=true")
+                .loginPage("/login")
+                .permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .permitAll();
@@ -64,7 +78,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService(userRepository);
+        return new CustomUserDetailsService();
     }
 
 

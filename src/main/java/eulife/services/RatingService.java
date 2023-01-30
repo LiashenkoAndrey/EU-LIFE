@@ -23,20 +23,23 @@ public class RatingService {
     }
 
 
-    public void updateRatingOrSaveNew(User user, Long comment_id, boolean isLike) {
+    public Rating updateRatingOrSaveNew(User user, Long comment_id, boolean isLike) {
         Comment comment = commentRepository.findById(comment_id).orElseThrow(EntityNotFoundException::new);
         Optional<Rating> optionalRating = ratingRepository.findRatingByUser_IdAndComment_Id(user.getId(), comment_id);
         boolean ratingIsEmpty = optionalRating.isEmpty();
-        if (ratingIsEmpty) saveRating(new Rating(user, comment, isLike));
+        if (ratingIsEmpty)  {
+            return saveRating(new Rating(user, comment, isLike));
+        }
         else {
             Rating rating = optionalRating.get();
             rating.setIs_like(isLike);
-            saveRating(rating);
+            return saveRating(rating);
         }
     }
 
-    public void saveRating(Rating rating) {
+    public Rating saveRating(Rating rating) {
         ratingRepository.save(rating);
+        return rating;
     }
 
 }

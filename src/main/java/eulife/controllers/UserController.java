@@ -2,7 +2,6 @@ package eulife.controllers;
 
 import eulife.domain.Image;
 import eulife.domain.User;
-import eulife.domain.dto.UserDetailsDto;
 import eulife.domain.dto.UserDto;
 import eulife.services.UserService;
 import org.springframework.http.MediaType;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 
 @Controller
@@ -42,9 +40,9 @@ public class UserController {
 
 
     @PostMapping("/update")
-    public RedirectView update(@ModelAttribute("user_details_dto") UserDetailsDto userDetailsDto, Authentication auth) {
-        userService.updateDetails(userDetailsDto,(User) auth.getPrincipal());
-        return new RedirectView("user");
+    public String update(@ModelAttribute("user_dto") UserDto userDto, Authentication auth) {
+        userService.updateUser(userDto ,(User) auth.getPrincipal());
+        return "redirect:/user/edit";
     }
 
 
@@ -52,7 +50,6 @@ public class UserController {
     public String edit(Model model, Authentication auth) {
         model.addAttribute("user", auth.getPrincipal());
         model.addAttribute("update_user", new UserDto());
-        model.addAttribute("update_user_details", new UserDetailsDto());
         return "user_page/edit";
     }
 

@@ -3,6 +3,8 @@ package eulife.domain;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "user_details")
 public class UserDetails {
@@ -26,8 +28,20 @@ public class UserDetails {
     @Nullable
     private String site;
 
+    @Nullable
+    private String age;
+
+
     @OneToOne(cascade = CascadeType.ALL)
     private Image image;
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
 
     public Image getImage() {
         return image;
@@ -38,6 +52,20 @@ public class UserDetails {
     }
 
     public UserDetails() {
+    }
+
+    @Override
+    public String toString() {
+        return "UserDetails{" +
+                "id=" + id +
+                ", university='" + university + '\'' +
+                ", faculty='" + faculty + '\'' +
+                ", github='" + github + '\'' +
+                ", linkedin='" + linkedin + '\'' +
+                ", site='" + site + '\'' +
+                ", age='" + age + '\'' +
+                ", image=" + image +
+                '}';
     }
 
     public Long getId() {
@@ -86,5 +114,19 @@ public class UserDetails {
 
     public void setSite(String site) {
         this.site = site;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDetails that = (UserDetails) o;
+        return Objects.equals(university, that.university) && Objects.equals(faculty, that.faculty) && Objects.equals(github, that.github) && Objects.equals(linkedin, that.linkedin) && Objects.equals(site, that.site) && Objects.equals(age, that.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(university, faculty, github, linkedin, site, age);
     }
 }

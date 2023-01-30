@@ -15,7 +15,7 @@ public class Comment {
 
 
 
-    public Comment(String text, User author, Date date_of_creation) {
+    public Comment(String text, User author, CustomDate date_of_creation) {
         this.text = text;
         this.author = author;
         this.date_of_creation = date_of_creation;
@@ -49,6 +49,7 @@ public class Comment {
     @Nullable
     private List<Comment> commentList;
 
+    private CustomDate date_of_creation;
     @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
     private List<Rating> ratingList;
 
@@ -99,13 +100,13 @@ public class Comment {
         this.commentList = commentList;
     }
 
-    private Date date_of_creation;
 
-    public Date getDate_of_creation() {
+
+    public CustomDate getDate_of_creation() {
         return date_of_creation;
     }
 
-    public void setDate_of_creation(Date date_of_creation) {
+    public void setDate_of_creation(CustomDate date_of_creation) {
         this.date_of_creation = date_of_creation;
     }
 

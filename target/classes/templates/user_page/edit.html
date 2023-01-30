@@ -29,8 +29,8 @@
                     
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
-                            <a href="/question/all" class="nav-item nav-link">Questions</a>
-                            <a href="/article/all" class="nav-item nav-link disabled">Articles</a>
+                            <a href="/questionTest/all" class="nav-item nav-link">Questions</a>
+                            <a href="/article/all" class="nav-item nav-link ">Articles</a>
                         </div>
                     </div>
             </nav>
@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="p-1" style="display: inline-block">
-                                <h4 th:text="${user.first_name}"></h4>
+                                <h4 th:text="${user.first_name + ' ' + user.last_name}"></h4>
                                 <div>
                                     <span>Age:</span>
                                     <span>19</span>
@@ -99,31 +99,50 @@
                             </div>
                         </div>
                         <div class="container">
-                            <form action="/user/update" method="POST">
+                            <form action="/user/update" method="POST" th:object="${update_user}">
                                 <div class="border border-secondary mt-2 p-5 row rounded-3">
                                     <h5 class="text-center">Edit my profile</h5>
-
+                                    <button class="h1" value="Ok" onclick="execute()"></button>
                                     <div class="col-md-5">
-                                        <label class="form-label">My first name<input class="form-control" type="text"></label>
-                                        <label class="form-label">My last name<input class="form-control" type="text"></label>
-                                        <label class="form-label">My age<input class="form-control" type="text"></label>
-                                        <label class="form-label">My University<input class="form-control" type="text"></label>
+                                        <label class="form-label" >
+                                            First name
+                                            <input class="form-control field" th:field="*{first_name}"    type="text">
+                                        </label>
+
+                                        <label class="form-label">
+                                            Last name
+                                            <input class="form-control field" th:field="*{last_name}"   type="text">
+                                        </label>
+
+                                        <label class="form-label">
+                                            Age
+                                            <input class="form-control field" th:field="*{age}"   type="text">
+                                        </label>
+
+                                        <label class="form-label">
+                                            University
+                                            <input class="form-control field" th:field="*{university}"   type="text" >
+                                        </label>
+
+                                        <label class="form-label">Faculty
+                                            <input class="form-control field" th:field="*{faculty}"  value="null" type="text">
+                                        </label>
                                     </div>
                                 </div>
 
                                 <div class="border border-secondary mt-4 p-5 text-center rounded-3">
                                     <h4>Links</h4>
                                     <label class="form-label" ><i class="bi bi-github h1"></i>
-                                        <input class="form-control" type="text" placeholder="Git hub">
+                                        <input class="form-control field" th:field="*{github}"  type="text" placeholder="Git hub">
                                     </label>
                                     <label class="form-label" ><i class="bi bi-linkedin h1"></i>
-                                        <input class="form-control" type="text" placeholder="Linkedin">
+                                        <input class="form-control field" th:field="*{linkedin}"  type="text" placeholder="Linkedin">
                                     </label>
                                     <label class="form-label" ><i class="bi bi-globe h1"></i>
-                                        <input class="form-control" type="text" placeholder="Your site">
+                                        <input class="form-control field" th:field="*{site}"  type="text" placeholder="Your site">
                                     </label>
                                 </div>
-                                <input type="submit" value="Edit" class="mx-auto mt-2 bg-warning text-white  border-0 px-4 py-1 rounded-3" style="display: block">
+                                <input type="submit" value="Edit" class="m-3 bg-warning text-white border-0 px-4 py-1 rounded-3" id="submit">
                             </form>
                         </div>
 
@@ -140,7 +159,6 @@
             <p>Contacts</p>
             <p>About us<p>
         </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

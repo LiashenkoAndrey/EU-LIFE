@@ -8,6 +8,7 @@
     <title>EU-LIFE</title>
     <link rel="stylesheet" th:href="@{/styles/main.css}">
     <link rel="stylesheet" th:href="@{/styles/start.css}">
+    <link rel="stylesheet" th:href="@{/styles/news.css}">
     <link rel="icon" type="image/x-icon" th:href="@{img/icon.png}">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -21,63 +22,102 @@
     }
 </style>
 
-    <div id="wrapper" class="container  py-3 my-3 text-light">
+<div class="container  py-3 my-3 text-light">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
+    <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
 
-                    <a href="/" class="navbar-brand">
-                        <img th:src="@{img/logo.png}" alt="logo" width="80" height="80" class="m-2">
-                    </a>
+        <a href="/" class="navbar-brand">
+            <img th:src="@{/img/logo.png}" alt="logo" width="80" height="80" class="m-2">
+        </a>
 
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    
-                    <div class="collapse navbar-collapse">
-                        <div class="navbar-nav">
-                            <a href="/user/edit" class="nav-item nav-link active">My profile</a>
-                            <a href="/question" class="nav-item nav-link active">Questions</a>
-                            <a href="/article/all" class="nav-item nav-link active">Articles</a>
-                        </div>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                        <div th:if="${userAuthenticated}" class="navbar-nav ms-auto">
-                            <a href="/user/edit" class="naw-item nav-link text-dark" th:text="${user.first_name + ' ' + user.last_name}"></a>
-                            <img th:src="@{/user/image/get/{user_id}(user_id=${user.id})}" width="80" height="80" class="rounded-3" alt="user_image">
-                        </div>
-                        <div th:unless="${userAuthenticated}" class="navbar-nav ms-auto">
-                            <a href="/login" class="nav-item nav-link">Login</a>
-                            <a href="/registration" class="nav-item nav-link">Registration</a>
-                        </div>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav">
+                <a href="/user/edit" class="nav-item nav-link active">My profile</a>
+                <a href="/questionTest/all" class="nav-item nav-link active">Questions</a>
+                <a href="/article/all" class="nav-item nav-link active">Articles</a>
+            </div>
 
-                    </div>
-            </nav>
+            <div th:if="${user != null}" class="navbar-nav ms-auto">
+                <a href="/user/edit" class="naw-item nav-link text-dark" th:text="${user.first_name + ' ' + user.last_name}"></a>
+                <img th:src="@{/user/image/get/{user_id}(user_id=${user.id})}" width="80" height="80" class="rounded-3" alt="user_image">
+            </div>
+            <div th:unless="${user != null}" class="navbar-nav ms-auto">
+                <a href="/login" class="nav-item nav-link">Login</a>
+                <a href="/registration" class="nav-item nav-link">Registration</a>
+            </div>
 
-        <div id="navbarAndContentWrapper" class="container mt-2">
-            <div class="row m-3 rounded-3" id="box">
-                <div class="col-md-2">
-                    <div class="naw flex-column border border-secondary text-center px-0 rounded-3 "  id="navigation">
-
-                        <div  class=" h6 text-secondary mt-2">Global</div>
-                        <a href="/article/new" class="naw-item nav-link   text-white h6"> <i class="bi bi-pen h5"></i> Write article</a>
-                        <a href="/question/new" class="naw-item nav-link text-white h6"> <i class="bi bi-question-circle h5"></i> Ask question</a>
-                        <a href="" class="naw-item nav-link  text-white h6"> <i class='fas fa-graduation-cap' style='font-size:20px'></i> Students</a>
-                        <a href="" class="naw-item nav-link  text-white h6"> <i class="fas fa-school" style='font-size:20px'></i> Universities</a>
-                    </div>
-                </div>
-                <div class="col-md-8 ">
-                    <div class="container my-3 truncate" property="pr" th:each="question : ${questions}">
-                        <a class="text-info h5" th:href="@{question/{id}(id=${question.id})}" th:text="${question.description}"></a>
-                        <p th:text="${question.text}"></p>
-                    </div>
-                </div>
-
-        <div id="footer" class="container mt-2" style="height: 200px;">
-            <h4>footer</h4>
         </div>
-        
+    </nav>
+
+    <div class="container mt-2">
+        <div class="row m-3 rounded-3" id="box">
+            <div class="col-md-2 mt-2">
+                <div class="naw flex-column border border-secondary text-center px-0 rounded-3 ">
+                    <div class=" h6 text-secondary mt-2">Global</div>
+                    <a href="/article/new" class="naw-item nav-link   text-white h6"> <i class="bi bi-pen h5"></i> Write article</a>
+                    <a href="/questionTest/new" class="naw-item nav-link text-white h6"> <i class="bi bi-questionTest-circle h5"></i> Ask questionTest</a>
+                    <a href="" class="naw-item nav-link  text-white h6"> <i class='fas fa-graduation-cap' style='font-size:20px'></i> Students</a>
+                    <a href="" class="naw-item nav-link  text-white h6"> <i class="fas fa-school" style='font-size:20px'></i> University</a>
+                </div>
+            </div>
+            <div class="col-md-7 ">
+                <div class="container my-3">
+                    <p class="h4">
+                        Hi! You visited the student forum of the European university!
+                    </p>
+                    <h5 class="mt-4">How can you use it?</h5>
+                    <ul>
+                        <li><a href="/questionTest/new">Ask a question</a></li>
+                        <li>You can help students <a href="/questionTest/all">solve a problem</a> </li>
+                        <li>You can <a href="/article/new">write an article</a> if you are already experienced in a particular area</li>
+                    </ul>
+
+                    <h5>For whom is this forum appointment?</h5>
+                    <ul>
+                        <li>Students</li>
+                        <li>Teachers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-3 m-0 p-0 "  >
+                <div class="m-4" id="sticky">
+                    <a sec:authorize="hasAuthority('ADMIN')" href="/news/new">Add news</a>
+                    <h4 class="text-center" >News</h4>
+
+                    <div class="p-2 news" th:each="news_one : ${news}" >
+                        <a th:href="@{/news/{id}(id=${news_one.id})}">
+                            <h6 style="font-size: 14px; margin: 0;" class="text-end fw-normal" th:text="${news_one.date_of_creation.returnDate()}" ></h6>
+                            <h6  th:text="${news_one.description}"> </h6>
+                            <span class="truncate fst-italic"  th:text="${news_one.text}"></span>
+                        </a>
+                    </div>
+
+                    <div class=" p-2 text-center  rounded-3" >
+                        <a href="news/all" style="text-decoration: none; text-shadow: -2px -1px 10px rgba(255,255,255,0.81); color: white;"> &lt; &lt; &lt; Load all &gt; &gt; &gt;</a>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
     </div>
+
+
+
+
+    <div id="footer" class="container mt-5" style="height: 200px;">
+        <hr>
+        <h4>eu-life.info</h4>
+        <p>Information</p>
+        <p>Contacts</p>
+        <p>About authors<p>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

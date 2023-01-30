@@ -1,26 +1,35 @@
 package eulife.services;
 
 import eulife.domain.News;
+import eulife.domain.dto.NewsDto;
 import eulife.repositories.NewsRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NewsService {
-
-    private static final Logger logger = LogManager.getLogger(NewsService.class);
-
     private final NewsRepository newsRepository;
-
 
     public NewsService(NewsRepository newsRepository) {
         this.newsRepository = newsRepository;
     }
 
-    public void save(News news) {
-        logger.info("saving news" + news.getId());
-        newsRepository.save(news);
+    public News save(News news) {
+        News savedNews = newsRepository.save(news);
+        return savedNews;
     }
 
+    public List<NewsDto> findAllDto() {
+        return newsRepository.findAllNewsWithLimitedText();
+    }
+
+    public List<News> findAll() {
+        return newsRepository.findAll();
+    }
+
+    public Optional<News> findById(Long id) {
+        return newsRepository.findById(id);
+    }
 }

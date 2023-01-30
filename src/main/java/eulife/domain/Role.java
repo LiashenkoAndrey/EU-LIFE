@@ -3,6 +3,9 @@ package eulife.domain;
 import jakarta.persistence.Embeddable;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Embeddable
 public class Role implements GrantedAuthority {
 
@@ -21,5 +24,11 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return authority;
+    }
+
+    public static List<Role> defaultRole() {
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role("USER"));
+        return roles;
     }
 }

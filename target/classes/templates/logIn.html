@@ -33,7 +33,7 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
                             <a href="/profile" class="nav-item nav-link active">My profile</a>
-                            <a href="/question" class="nav-item nav-link active">Questions</a>
+                            <a href="/questionTest" class="nav-item nav-link active">Questions</a>
                             <a href="/article/all" class="nav-item nav-link active">Articles</a>
                         </div>
                         <div class="navbar-nav ms-auto">
@@ -48,7 +48,8 @@
             <div class="row m-3" >
                     <form class="col-md-3 mx-auto" method="post" th:action="@{/login}">
                         <div class="mb-3">
-                            <div th:if="${param.error}" class="alert alert-error"></div>
+                            <div class="alert text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
                             <label class="form-label" for="inputEmail">Login</label>
                             <input type="text" name="username" required class="form-control" id="inputEmail" placeholder="Login">
                         </div>

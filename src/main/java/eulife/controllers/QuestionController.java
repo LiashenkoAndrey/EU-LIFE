@@ -1,6 +1,7 @@
 package eulife.controllers;
 
 import eulife.domain.Comment;
+import eulife.domain.CustomDate;
 import eulife.domain.Question;
 import eulife.domain.User;
 import eulife.services.QuestionService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Controller
@@ -31,12 +33,19 @@ public class QuestionController {
         model.addAttribute("question", new Question());
         return "question/newQuestion";
     }
+    @GetMapping("/all")
+    public String getAllQuestions(Model model, Authentication auth) {
+        if (auth != null) model.addAttribute("user",  auth.getPrincipal());
+        List<Question> questions = questionService.findAll();
+        model.addAttribute("questions", questions);
+        return "question/questionsAll";
 
+    }
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @PostMapping("/new")
     public RedirectView saveQuestion(@ModelAttribute("question") Question question, Authentication auth) {
-        question.setDate_of_creation(new Date());
+        question.setDate_of_creation(new CustomDate());
 
         // getting user instance from security session
         question.setAuthor((User) auth.getPrincipal());
@@ -45,7 +54,8 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public String showQuestion(@PathVariable("id") Long id, Model model) {
+    public String showQuestion(@PathVariable("id") Long id, Authentication auth, Model model) {
+        if (auth != null) model.addAttribute("user", auth.getPrincipal());
         model.addAttribute("question", questionService.findById(id));
         model.addAttribute("new_comment", new Comment());
         return "question/question";

@@ -3,7 +3,7 @@ package eulife.domain;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -13,7 +13,7 @@ public class Question {
     public Question() {
     }
 
-    public Question(String text, User author, Date date_of_creation, String description) {
+    public Question(String text, User author, CustomDate date_of_creation, String description) {
         this.text = text;
         this.author = author;
         this.date_of_creation = date_of_creation;
@@ -29,7 +29,8 @@ public class Question {
     @ManyToOne
     private User author;
 
-    private Date date_of_creation;
+    @Embedded
+    private CustomDate date_of_creation;
 
     private String description;
 
@@ -73,11 +74,11 @@ public class Question {
         this.author = author;
     }
 
-    public Date getDate_of_creation() {
+    public CustomDate getDate_of_creation() {
         return date_of_creation;
     }
 
-    public void setDate_of_creation(Date date_of_creation) {
+    public void setDate_of_creation(CustomDate date_of_creation) {
         this.date_of_creation = date_of_creation;
     }
 }

@@ -32,7 +32,7 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
                             <a href="/profile" class="nav-item nav-link active">My profile</a>
-                            <a href="/question" class="nav-item nav-link active">Questions</a>
+                            <a href="/questionTest" class="nav-item nav-link active">Questions</a>
                             <a href="/article/all" class="nav-item nav-link active">Articles</a>
                         </div>
                         <div th:if="${authenticated}" class="navbar-nav ms-auto">
@@ -51,23 +51,15 @@
     
         <div id="navbarAndContentWrapper" class="container mt-2 ">
             <div class="row m-3 rounded-3" id="box">
-                    <ul class="list-unstyled col-md-1 " id="nav-list">
-                        <li class="border rounded-3 my-3 p-2 bg-secondary ">
-                            <a href="#">My Profile</a>
-                        </li>
-
-                        <li class="border rounded-3 my-3 p-2 bg-secondary">
-                            <a href="#">New question</a>                      
-                        </li>
-
-                        <li class="border rounded-3 my-3 p-2 bg-secondary">
-                            <a href="#">New article</a>
-                        </li>
-
-                        <li class="border rounded-3 my-3 p-2 bg-secondary">
-                            <a href="#">Info</a>
-                        </li>
-                    </ul>
+                <div class="col-md-2 mt-2">
+                    <div class="naw flex-column border border-secondary text-center px-0 rounded-3 ">
+                        <div class=" h6 text-secondary mt-2">Global</div>
+                        <a href="/article/new" class="naw-item nav-link   text-white h6"> <i class="bi bi-pen h5"></i> Write article</a>
+                        <a href="/questionTest/new" class="naw-item nav-link text-white h6"> <i class="bi bi-questionTest-circle h5"></i> Ask questionTest</a>
+                        <a href="" class="naw-item nav-link  text-white h6"> <i class='fas fa-graduation-cap' style='font-size:20px'></i> Students</a>
+                        <a href="" class="naw-item nav-link  text-white h6"> <i class="fas fa-school" style='font-size:20px'></i> University</a>
+                    </div>
+                </div>
                 <div class="col-md-8">
                     <div class="container my-3  ">
                         <p class="text-end m-0">date: 12:03:2020</p>

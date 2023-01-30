@@ -10,13 +10,21 @@ public class News {
     public News() {
     }
 
+    public News(Long id, String text, CustomDate date_of_creation, User author, String description) {
+        this.id = id;
+        this.text = text;
+        this.date_of_creation = date_of_creation;
+        this.author = author;
+        this.description = description;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String text;
 
-    private Date time;
+    private CustomDate date_of_creation;
 
     @ManyToOne
     private User author;
@@ -44,12 +52,12 @@ public class News {
         this.text = text;
     }
 
-    public Date getTime() {
-        return time;
+    public CustomDate getDate_of_creation() {
+        return date_of_creation;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setDate_of_creation(CustomDate date_of_creation) {
+        this.date_of_creation = date_of_creation;
     }
 
     public User getAuthor() {

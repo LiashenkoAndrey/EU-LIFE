@@ -24,13 +24,13 @@ public class Article {
         return id;
     }
 
-    private Date date_of_creation;
+    private CustomDate date_of_creation;
 
-    public Date getDate_of_creation() {
+    public CustomDate getDate_of_creation() {
         return date_of_creation;
     }
 
-    public void setDate_of_creation(Date date_of_creation) {
+    public void setDate_of_creation(CustomDate date_of_creation) {
         this.date_of_creation = date_of_creation;
     }
 

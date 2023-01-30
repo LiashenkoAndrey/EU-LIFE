@@ -2,6 +2,7 @@ package eulife.controllers;
 
 
 import eulife.domain.Comment;
+import eulife.domain.CustomDate;
 import eulife.domain.User;
 import eulife.repositories.ArticleRepository;
 import eulife.repositories.CommentRepository;
@@ -49,7 +50,7 @@ public class CommentController {
         if (question_id != null) comment.setQuestion(questionRepository.findById(question_id).orElseThrow(EntityNotFoundException::new));
         if (article_id != null) comment.setArticle(articleRepository.findById(article_id).orElseThrow(EntityNotFoundException::new));
         if (comment_id != null) comment.setComment(commentRepository.findById(comment_id).orElseThrow(EntityNotFoundException::new));
-        comment.setDate_of_creation(new Date());
+        comment.setDate_of_creation(new CustomDate());
 
 
         commentRepository.save(comment);

@@ -1,13 +1,14 @@
 package eulife.util;
 
 import eulife.domain.User;
+import eulife.domain.UserDetails;
 import eulife.domain.dto.UserDto;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-21T16:11:12+0200",
+    date = "2023-01-30T16:52:20+0200",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.5 (Amazon.com Inc.)"
 )
 @Component
@@ -30,6 +31,32 @@ public class UserMapperImpl implements UserMapper {
         }
         if ( userDto.getPassword() != null ) {
             user.setPassword( userDto.getPassword() );
+        }
+    }
+
+    @Override
+    public void updateUserDetailsFromDto(UserDto userDto, UserDetails user) {
+        if ( userDto == null ) {
+            return;
+        }
+
+        if ( userDto.getAge() != null ) {
+            user.setAge( userDto.getAge() );
+        }
+        if ( userDto.getUniversity() != null ) {
+            user.setUniversity( userDto.getUniversity() );
+        }
+        if ( userDto.getFaculty() != null ) {
+            user.setFaculty( userDto.getFaculty() );
+        }
+        if ( userDto.getGithub() != null ) {
+            user.setGithub( userDto.getGithub() );
+        }
+        if ( userDto.getLinkedin() != null ) {
+            user.setLinkedin( userDto.getLinkedin() );
+        }
+        if ( userDto.getSite() != null ) {
+            user.setSite( userDto.getSite() );
         }
     }
 }

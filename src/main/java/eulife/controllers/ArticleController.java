@@ -1,6 +1,7 @@
 package eulife.controllers;
 
 import eulife.domain.Article;
+import eulife.domain.CustomDate;
 import eulife.domain.User;
 import eulife.repositories.ArticleRepository;
 import eulife.repositories.CommentRepository;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
@@ -32,6 +34,7 @@ public class ArticleController {
     @GetMapping("/new")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public String newArticle(Model model, Authentication auth) {
+        assert auth != null;
         model.addAttribute("user", auth.getPrincipal());
         model.addAttribute("article", new Article());
         return "article/newArticle";
@@ -41,9 +44,7 @@ public class ArticleController {
     @PostMapping("/new")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public RedirectView postArticle(@ModelAttribute("article") Article article, Authentication auth) {
-
-        article.setDate_of_creation(new Date());
-
+        article.setDate_of_creation(new CustomDate());
         assert auth != null;
         article.setAuthor((User) auth.getPrincipal());
         articleRepository.save(article);
@@ -54,16 +55,20 @@ public class ArticleController {
     public String getArticles (@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageIndex,
                                       @PageableDefault(size = 2)Pageable pageable,
                                       Model model, Authentication auth) {
+
+        if (auth != null) model.addAttribute("user", auth.getPrincipal());
         Page<Article> articlePages = articleRepository.findAll(pageable.withPage(pageIndex));
         model.addAttribute("articles", articlePages.toList());
         model.addAttribute("pagesQuantity", articlePages.getTotalPages()-1);
 
-        return "article/ArticlesList";
+        return "article/articlesAll";
     }
 
     @GetMapping("/{id}")
     public String showArticle(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("article", articleRepository.findById(id).orElseThrow(EntityNotFoundException::new));
+        Optional<Article> article = articleRepository.findById(id);
+        if (article.isEmpty()) return "error/404";
+        model.addAttribute("article", article.get());
         model.addAttribute("comments",commentRepository.findCommentsByArticle_Id(id));
         return "article/article";
     }
