@@ -45,4 +45,11 @@ public class Image {
     public void setBinary_image(byte[] binary_image) {
         this.binary_image = binary_image;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "filename='" + filename + '\'' +
+                '}';
+    }
 }

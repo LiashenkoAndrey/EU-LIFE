@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>New Question</title>
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" th:href="@{/styles/main.css}">
     <link rel="stylesheet" th:href="@{/styles/newQuestion.css}">
     <link rel="icon" type="image/x-icon" th:href="@{img/icon.png}">
@@ -32,7 +32,7 @@
                     <div class="collapse navbar-collapse">
                         <div class="navbar-nav">
                             <a href="/user/edit" class="nav-item nav-link active">My profile</a>
-                            <a href="/questionTest/all" class="nav-item nav-link active">Questions</a>
+                            <a href="/question/all" class="nav-item nav-link active">Questions</a>
                             <a href="/article/all" class="nav-item nav-link active">Articles</a>
                         </div>
                         <div  class="navbar-nav ms-auto">
@@ -45,8 +45,8 @@
 
             <div id="formWrapper" class="container mt-2">
                 <div class="row m-3 rounded-3" id="box">
-                        <form class="col-md-4 mx-auto" th:method="post" th:action="@{/questionTest/new}" th:object="${questionTest}">
-                            <h4>New questionTest</h4>
+                        <form class="col-md-4 mx-auto" th:method="post" th:action="@{/question/new}" th:object="${question}">
+                            <h4>New question</h4>
 
                             <label for="description">Description</label>
                             <input type="text" th:field="*{description}" class="form-control rounded-3 m-1 col-md-3" id="description">

@@ -3,13 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title th:text="${questionTest.description}"></title>
+    <title th:text="${question.description}"></title>
     <link rel="stylesheet" th:href="@{/styles/main.css}">
-    <link rel="stylesheet" th:href="@{/styles/questionTest.css}">
+    <link rel="stylesheet" th:href="@{/styles/question.css}">
     <link rel="icon" type="image/x-icon" th:href="@{img/icon.png}">
+    <link rel="stylesheet" th:href="@{/styles/zoom.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body class="bg-dark">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.8.2/tinymce.min.js" integrity="sha512-laacsEF5jvAJew9boBITeLkwD47dpMnERAtn4WCzWu/Pur9IkF0ZpVTcWRT/FUCaaf7ZwyzMY5c9vCcbAAuAbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <style th:inline="text">
         body {   background: url([[@{/img/background.svg}]]) no-repeat center center fixed;  }
     </style>
@@ -28,7 +31,7 @@
 
                 <div class="navbar-nav">
                     <a href="/user/edit" class="nav-item nav-link active">My profile</a>
-                    <a href="/questionTest/all" class="nav-item nav-link active">Questions</a>
+                    <a href="/question/all" class="nav-item nav-link active">Questions</a>
                     <a href="/article/all" class="nav-item nav-link active">Articles</a>
                 </div>
 
@@ -60,22 +63,21 @@
 
                 <div class="col-md-8">
                     <div class="container my-3">
-                        <p class="text-end m-0" th:text="${questionTest.date_of_creation}"></p>
-                        <div class="text-end" style="position: relative; top: 40px;">
-                            <h6>time</h6>
-                            <h6>time</h6>
-                        </div>
-                        <h3 class="container my-3" th:text="${questionTest.description}"></h3>
+                        <p class="text-end m-0" th:text="${question.date_of_creation.returnDate()}"></p>
+                        <p class="text-end" th:text="${question.date_of_creation.returnTime()}" ></p>
+                        <h3 class="container my-3" th:text="${question.description}"></h3>
                     </div>
-                    <div class="container my-3" th:text="${questionTest.text}"></div>
+                    <div class="container my-3" th:text="${question.text}"></div>
 
             <hr>
             <h4 class="text-center">Answers</h4>
-            <div class="mb-5" th:each="comment : ${questionTest.comments}">
+                    <button onclick="getContent()">Get content form active editor</button>
+            <div class="mb-5" th:each="comment : ${question.comments}">
 
                 <img th:src="@{/user/image/get/{user_id}(user_id=${comment.author.id})}" width="50" height="50" class="rounded" alt="user image">
                 <a th:href="@{../user_page/{id}(${comment.author.id})}" th:text="${comment.author.first_name}"></a>
-                <div th:text="${comment.text}"></div>
+                <div th:utext="${comment.text}"></div>
+
 
                 <div class="text-info">
                     <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment.id}, true)|" th:inline="text" >[[${comment.getLikes()}]] &#128077 Like</button>
@@ -85,7 +87,7 @@
                         <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${new_comment}" >
                             <h4 class="text-center">Your answer</h4>
                             <label for="comment1"></label>
-                            <textarea cols="30" rows="10" id="comment1" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                            <textarea cols="30" rows="10" id="comment1" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto textarea"></textarea>
                             <label><input type="text" name="comment_id" th:value="${comment.id}" style="display: none"></label>
                             <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
                         </form>
@@ -95,17 +97,17 @@
 
                     <img th:src="@{/user/image/get/{user_id}(user_id=${comment1.author.id})}" width="50" height="50" class="rounded" alt="user image">
                     <a href="" class="link" th:text="${comment1.author.first_name}"></a>
-                    <div th:text="${comment1.text}"></div>
+                    <div th:utext="${comment1.text}"></div>
 
                     <div class="text-info">
-                        <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment.id}, true)|" th:inline="text" >[[${comment1.getLikes()}]] &#128077 Like</button>
-                        <button class="ratingBar" th:attr="onclick=|saveOrUpdateRating(${comment.id}, false)|" th:inline="text" >[[${comment1.getDislikes()}]] &#128078 Dislike</button>
+                        <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment1.id}, true)|" th:inline="text" >[[${comment1.getLikes()}]] &#128077 Like</button>
+                        <button class="ratingBar" th:attr="onclick=|saveOrUpdateRating(${comment1.id}, false)|" th:inline="text" >[[${comment1.getDislikes()}]] &#128078 Dislike</button>
                         <div class="reply">Reply</div>
 
-                        <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${comment}" >
+                        <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${new_comment}" >
                             <h4 class="text-center">Your answer</h4>
                             <label for="comment2"></label>
-                            <textarea cols="30" rows="10" id="comment2" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                            <textarea cols="30" rows="10" id="comment2" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto textarea"></textarea>
                             <label><input type="text" name="comment_id" th:value="${comment1.id}" style="display: none"></label>
                             <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
                         </form>
@@ -114,17 +116,17 @@
                     <div class="ms-5 mt-1" th:each="comment2 : ${comment1.commentList}">
                         <img th:src="@{/user/image/get/{user_id}(user_id=${comment2.author.id})}" width="50" height="50" class="rounded" alt="user image">
                         <a href="" class="link" th:text="${comment2.author.first_name}"></a>
-                        <div th:text="${comment2.text}"></div>
+                        <div th:utext="${comment2.text}"></div>
 
                         <div class="text-info">
-                            <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment.id}, true)|" th:inline="text" >[[${comment2.getLikes()}]] &#128077 Like</button>
-                            <button class="ratingBar" th:attr="onclick=|saveOrUpdateRating(${comment.id}, false)|" th:inline="text" >[[${comment2.getDislikes()}]] &#128078 Dislike</button>
+                            <button class="ratingBar"  th:attr="onclick=|saveOrUpdateRating(${comment2.id}, true)|" th:inline="text" >[[${comment2.getLikes()}]] &#128077 Like</button>
+                            <button class="ratingBar" th:attr="onclick=|saveOrUpdateRating(${comment2.id}, false)|" th:inline="text" >[[${comment2.getDislikes()}]] &#128078 Dislike</button>
                             <div class="reply">Reply</div>
 
-                            <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${comment}" >
+                            <form th:action="@{/comment/new}" th:method="post" class="row comment_form" th:object="${new_comment}" >
                                 <h4 class="text-center">Your answer</h4>
                                 <label for="comment"></label>
-                                <textarea cols="30" rows="10" id="comment" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
+                                <textarea cols="30" rows="10" id="comment" th:field="*{text}" class="rounded bg-dark text-light p-2 col-md-8 mx-auto textarea"></textarea>
                                 <label><input type="text" name="comment_id" th:value="${comment2.id}" style="display: none"></label>
                                 <label><input type="submit" value="Reply" class="mx-auto m-2" style="display: block;"></label>
                             </form>
@@ -134,11 +136,11 @@
             </div>
 
                 <form th:action="@{/comment/new}" th:method="post" class="row" >
+                    <input type="file" id="uploadImage"  style="display: none">
                     <h4 class="text-center">Your answer</h4>
-                    <label for="answer"></label>
-                    <textarea cols="30" rows="10" id="answer" name="text"  class="rounded bg-dark text-light p-2 col-md-8 mx-auto"></textarea>
-                    <label><input type="text"  th:value="${questionTest.id}"  name="question_id"  style="display: none"></label>
-                    <label><input type="submit" value="Answer" class="mx-auto m-2" style="display: block;"></label>
+                    <textarea cols="30" rows="10" class="textarea" name="text" ></textarea>
+                    <input type="text"  th:value="${question.id}"  name="question_id"  style="display: none">
+                    <input type="submit" value="Answer" class="mx-auto m-2" style="display: block;">
                 </form>
 
                 </div>
@@ -156,7 +158,11 @@
 
         <script th:src="@{/scripts/reply.js}"></script>
         <script th:src="@{/scripts/saveOrUpdateLikes.js}"></script>
+        <script th:src="@{/scripts/editorConfig.js}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script th:src="@{/scripts/zoom.js}"></script>
     </body>
 </html>

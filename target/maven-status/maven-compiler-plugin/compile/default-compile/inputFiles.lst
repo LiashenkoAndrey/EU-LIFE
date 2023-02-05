@@ -1,6 +1,7 @@
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\services\CustomUserDetailsService.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\UserController.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\Rating.java
+C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\ImageController.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\AdminController.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\Image.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\repositories\RatingRepository.java
@@ -10,6 +11,7 @@ C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\services\UserSe
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\repositories\ImageRepository.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\CommentController.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\Role.java
+C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\services\ImageService.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\CustomDate.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\repositories\NewsRepository.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\repositories\QuestionRepository.java
@@ -23,6 +25,7 @@ C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\services\NewsSe
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\dto\UserDto.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\Comment.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\repositories\CommentRepository.java
+C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\repositories\ImageRepositoryImpl.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\User.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\Article.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\dto\NewsDto.java

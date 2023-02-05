@@ -1,9 +1,10 @@
 package eulife.repositories;
 
 import eulife.domain.Image;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ImageRepository extends JpaRepository<Image, Long> {
+public interface ImageRepository {
+    String saveImage(Image image);
+    byte[] getImageById(String id);
 
 
 }
