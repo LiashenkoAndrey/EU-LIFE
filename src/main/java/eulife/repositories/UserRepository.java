@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u.user_details.image from User u where u.id = :id")
     Image findImageByUserId(@Param("id") Long id);
+
+    @Query("select case when exists(select u.id from User u where u.login=:l) then 'true' else 'false' end")
+    boolean checkLogin(@Param("l") String login);
 }

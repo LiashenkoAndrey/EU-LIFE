@@ -49,3 +49,14 @@
     border: none;
 }
 
+#current {
+    padding: 3px;
+    background-color: blue;
+    border-radius: 3px;
+}
+.time {
+    position: relative;
+    top: 10px;
+    font-size: 14px;
+    color: #969494;
+}

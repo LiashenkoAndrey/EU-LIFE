@@ -3,9 +3,8 @@ package eulife.controllers;
 import eulife.domain.Article;
 import eulife.domain.CustomDate;
 import eulife.domain.User;
-import eulife.repositories.ArticleRepository;
 import eulife.repositories.CommentRepository;
-import jakarta.persistence.EntityNotFoundException;
+import eulife.services.ArticleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -16,18 +15,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
-    private final ArticleRepository articleRepository;
 
+    private final ArticleService articleService;
     private final CommentRepository commentRepository;
 
-    public ArticleController(ArticleRepository articleRepository, CommentRepository commentRepository) {
-        this.articleRepository = articleRepository;
+    public ArticleController(ArticleService articleService, CommentRepository commentRepository) {
+        this.articleService = articleService;
         this.commentRepository = commentRepository;
     }
 
@@ -47,26 +45,30 @@ public class ArticleController {
         article.setDate_of_creation(new CustomDate());
         assert auth != null;
         article.setAuthor((User) auth.getPrincipal());
-        articleRepository.save(article);
+        articleService.save(article);
         return new RedirectView("/");
     }
 
     @GetMapping("/all")
-    public String getArticles (@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageIndex,
-                                      @PageableDefault(size = 2)Pageable pageable,
-                                      Model model, Authentication auth) {
+    public String getArticles (@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+                               @PageableDefault(size = 25)Pageable pageable,
+                               Model model, Authentication auth) {
 
-        if (auth != null) model.addAttribute("user", auth.getPrincipal());
-        Page<Article> articlePages = articleRepository.findAll(pageable.withPage(pageIndex));
+        // pagination
+        currentPage -=1;
+        Page<Article> articlePages = articleService.findPage(pageable, currentPage);
         model.addAttribute("articles", articlePages.toList());
+        System.out.println(currentPage);
+        model.addAttribute("currentPage", currentPage);
         model.addAttribute("pagesQuantity", articlePages.getTotalPages()-1);
 
+        if (auth != null) model.addAttribute("user", auth.getPrincipal());
         return "article/articlesAll";
     }
 
     @GetMapping("/{id}")
     public String showArticle(@PathVariable("id") Long id, Model model) {
-        Optional<Article> article = articleRepository.findById(id);
+        Optional<Article> article = articleService.findById(id);
         if (article.isEmpty()) return "error/404";
         model.addAttribute("article", article.get());
         model.addAttribute("comments",commentRepository.findCommentsByArticle_Id(id));

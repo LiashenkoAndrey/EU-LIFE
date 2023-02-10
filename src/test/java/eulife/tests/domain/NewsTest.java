@@ -38,7 +38,7 @@ public class NewsTest {
         news.setAuthor(savedAuthor);
         news.setDescription("Hello world!");
         news.setText("Second news!");
-        news.setTime(new CustomDate());
+        news.setDate_of_creation(new CustomDate());
         News savedNews = newsRepository.save(news);
 
         newsRepository.delete(savedNews);

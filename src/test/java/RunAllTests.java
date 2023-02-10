@@ -7,6 +7,7 @@ import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import static org.junit.platform.engine.discovery.ClassNameFilter.includeClassNa
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectPackage;
 
 
+@SpringBootTest
 @RunWith(SpringRunner.class)
 public class RunAllTests {
     SummaryGeneratingListener listener = new SummaryGeneratingListener();

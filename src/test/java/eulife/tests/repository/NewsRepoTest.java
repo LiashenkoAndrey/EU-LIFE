@@ -1,8 +1,7 @@
 package eulife.tests.repository;
 
-import eulife.domain.News;
 import eulife.domain.dto.NewsDto;
-import eulife.repositories.NewsRepository;
+import eulife.services.NewsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,14 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class NewsRepo {
+public class NewsRepoTest {
 
     @Autowired
-    NewsRepository newsRepository;
+    NewsService newsService;
 
     @Test
     public void selectAllNewsWithLimitedText() {
-        List<NewsDto> newsList = newsRepository.findAllNewsWithLimitedText();
+        List<NewsDto> newsList = newsService.findLimitedList(5);
         for (NewsDto n : newsList) System.out.println(n.getText());
     }
 }

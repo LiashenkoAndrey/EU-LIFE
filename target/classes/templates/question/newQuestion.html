@@ -4,66 +4,71 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>New Question</title>
-
     <link rel="stylesheet" th:href="@{/styles/main.css}">
     <link rel="stylesheet" th:href="@{/styles/newQuestion.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{img/icon.png}">
+    <link rel="icon" type="image/x-icon" th:href="@{/img/icon.png}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body class="bg-dark">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.8.2/tinymce.min.js" integrity="sha512-laacsEF5jvAJew9boBITeLkwD47dpMnERAtn4WCzWu/Pur9IkF0ZpVTcWRT/FUCaaf7ZwyzMY5c9vCcbAAuAbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <style th:inline="text">
-    body{
-        background: url([[@{/img/background.svg}]])
-        no-repeat center center fixed;
-    }
+    body{   background: url([[@{/img/background.svg}]]) no-repeat center center fixed;  }
 </style>
 
-
     <div id="wrapper" class="container  py-3 my-3 text-light">
-
             <nav class="navbar navbar-expand-lg navbar-light bg-info rounded-3 px-2" >
-                    <a href="/static" class="navbar-brand">
+
+                    <a href="/" class="navbar-brand">
                         <img th:src="@{/img/logo.png}" alt="logo" width="80" height="80" class="m-2">
                     </a>
 
                     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+
                     <div class="collapse navbar-collapse">
                         <div class="navbar-nav">
                             <a href="/user/edit" class="nav-item nav-link active">My profile</a>
                             <a href="/question/all" class="nav-item nav-link active">Questions</a>
                             <a href="/article/all" class="nav-item nav-link active">Articles</a>
                         </div>
+
                         <div  class="navbar-nav ms-auto">
                             <a href="/user/edit" class="naw-item nav-link text-dark" th:text="${user.first_name + user.last_name}"></a>
                             <img th:src="@{/user/image/get/{user_id}(user_id=${user.id})}" width="80" height="80" class="rounded-3" alt="user_image">
                         </div>
                     </div>
-
             </nav>
 
             <div id="formWrapper" class="container mt-2">
-                <div class="row m-3 rounded-3" id="box">
-                        <form class="col-md-4 mx-auto" th:method="post" th:action="@{/question/new}" th:object="${question}">
-                            <h4>New question</h4>
+                <div class=" m-3 rounded-3" id="box">
+                        <form th:method="post" th:action="@{/question/new}" th:object="${question}">
+                            <input type="file" id="uploadImage"  style="display: none">
+                            <h4 class="text-center">New question</h4>
 
-                            <label for="description">Description</label>
-                            <input type="text" th:field="*{description}" class="form-control rounded-3 m-1 col-md-3" id="description">
+                            <div class="row">
+                                <div class="col-md-8 mx-auto">
+                                    <label for="description">Description</label>
+                                    <input type="text" th:field="*{description}" class="form-control rounded-3 m-1 col-md-3" id="description" maxlength="200">
+                                    <label for="input">Text</label>
+                                    <textarea name="text" th:field="*{text}"  rows="15" maxlength="5000"  id="input" class="p-2 m-1 rounded-3 form-control textarea"></textarea>
+                                </div>
+                            </div>
 
-                            <label for="questionInput">Text</label>
-                            <textarea name="text" th:field="*{text}" cols="30" maxlength="5000" rows="10" id="questionInput" class="p-2 m-1 rounded-3 form-control"></textarea>
+                            <div class="row">
+                                <div class="col-md-4 mx-auto">
 
-                            <label for="tagsInput">Tags</label>
-                            <input type="text" name="tags" class="form-control rounded-3 m-1 col-md-3" id="tagsInput">
+                                    <label for="tagsInput">Tags</label>
+                                    <input type="text" name="tags" maxlength="100" class="form-control rounded-3 m-1 col-md-3" id="tagsInput">
 
-                            <button type="submit" class="btn btn-primary form-control m-1">Ask</button>
+                                    <button type="submit" class="btn btn-primary form-control m-1">Ask</button>
+                                </div>
+                            </div>
 
                         </form>
                 </div>
-
-
-        
         </div>
     </div>
 
@@ -74,6 +79,7 @@
         <p>Contacts</p>
         <p>About us<p>
     </div>
+    <script th:src="@{/scripts/editorConfig.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

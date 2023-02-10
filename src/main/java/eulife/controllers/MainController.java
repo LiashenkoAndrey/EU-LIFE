@@ -38,22 +38,24 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model, Authentication auth) {
-        model.addAttribute("news", newsService.findAllDto());
+        model.addAttribute("news", newsService.findLimitedList(5));
         if (auth != null) model.addAttribute("user", auth.getPrincipal());
 
         return "main";
     }
 
     @GetMapping("/registration")
-    public String getRegistrationView(Model model) {
+    public String getRegistrationView(@RequestParam(value = "message", required = false) String message,Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("message", message);
         return "registration";
     }
 
     @PostMapping("/registration")
-    public RedirectView doRegistration(@ModelAttribute("user") User user) {
+    public String doRegistration(@ModelAttribute("user") User user) {
+        if (userService.checkLogin(user.getLogin())) return  "redirect:/registration?message=Please try an another login";
         userService.saveNewUser(user);
-        return new RedirectView("/");
+        return "redirect:/";
     }
 
     @GetMapping("/login")
@@ -64,7 +66,6 @@ public class MainController {
             var exception = (AuthenticationException) httpSession.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
             if (exception != null) errorMessage = exception.getMessage();
         }
-
         model.addAttribute("errorMessage", errorMessage);
         return "login";
     }

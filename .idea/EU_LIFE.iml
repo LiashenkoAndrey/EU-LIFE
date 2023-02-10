@@ -145,5 +145,6 @@
     <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.5.3.Final" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.12.11" level="project" />
     <orderEntry type="library" name="tinymce" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
   </component>
 </module>

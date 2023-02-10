@@ -1,16 +1,16 @@
 package eulife.services;
 
-import eulife.domain.Image;
-import eulife.domain.Role;
-import eulife.domain.User;
-import eulife.domain.UserDetails;
+import eulife.domain.*;
 import eulife.domain.dto.UserDto;
 import eulife.repositories.UserRepository;
 import eulife.util.DtoMapper;
 import eulife.util.ImageMapper;
 import eulife.util.UserMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -52,6 +54,23 @@ public class UserService {
         userRepository.save(user);
     }
 
+
+    public void deleteUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        userRepository.delete(optionalUser.orElseThrow(EntityNotFoundException::new));
+        log.info("User with id: "+ optionalUser.get().getId() +" was deleted from db!");
+    }
+
+
+    public void setUserNotLockedById(Long id, boolean notLocked) {
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        user.setNot_locked(notLocked);
+        userRepository.save(user);
+        log.info("User with id: "+ user.getId() +", notLocked: " + notLocked);
+    }
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 
     public void updateImage(MultipartFile file, User user) {
         BufferedImage buffImg;
@@ -119,4 +138,19 @@ public class UserService {
     public Image getImageByUserId(Long user_id) {
         return userRepository.findImageByUserId(user_id);
     }
+
+    public List<User> getAll() {
+        log.info("Getting all users!");
+        return userRepository.findAll();
+    }
+
+    public boolean checkLogin(String login) {
+        return userRepository.checkLogin(login);
+    }
+
+    public Page<User> getPageOfUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+
 }

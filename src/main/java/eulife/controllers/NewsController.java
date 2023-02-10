@@ -2,8 +2,12 @@ package eulife.controllers;
 
 import eulife.domain.CustomDate;
 import eulife.domain.News;
+import eulife.domain.Question;
 import eulife.domain.User;
 import eulife.services.NewsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -42,9 +46,18 @@ public class NewsController {
 
 
     @GetMapping("/all")
-    public String showAllNews(Model model, Authentication auth) {
-        if (auth != null) model.addAttribute("user", (User) auth.getPrincipal());
-        model.addAttribute("news", newsService.findAll());
+    public String showAllNews(@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage,
+                              @PageableDefault(size = 25) Pageable pageable,
+                              Model model, Authentication auth) {
+
+        // pagination
+        currentPage -= 1;
+        Page<News> pages = newsService.findPage(pageable, currentPage);
+        model.addAttribute("news", pages.toList());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pagesQuantity", pages.getTotalPages()-1);
+
+        if (auth != null) model.addAttribute("user", auth.getPrincipal());
         return "news/newsAll";
     }
 

@@ -21,6 +21,7 @@ C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\UserDeta
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\config\SecurityConfig.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\Runner.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\services\RatingService.java
+C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\CheckLoginController.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\services\NewsService.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\dto\UserDto.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\Comment.java
@@ -38,4 +39,5 @@ C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\Rat
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\util\UserMapper.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\MainController.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\controllers\NewsController.java
+C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\services\ArticleService.java
 C:\Users\Study Account\IdeaProjects\EU-LIFE\src\main\java\eulife\domain\News.java

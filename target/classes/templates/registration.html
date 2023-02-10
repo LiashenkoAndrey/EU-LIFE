@@ -6,7 +6,7 @@
     <title>Basic Bootstrap Template</title>
     <link rel="stylesheet" th:href="@{/styles/main.css}">
     <link rel="stylesheet" th:href="@{/styles/registration.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{img/icon.png}">
+    <link rel="icon" type="image/x-icon" th:href="@{/img/icon.png}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body class="bg-dark">
@@ -60,10 +60,21 @@
                     <label class="form-label" for="email">Email</label>
                     <input type="email" id="email" th:field="*{email}"  required class="form-control" name="email" maxlength="30"  placeholder="Email">
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label" for="login">Login</label>
                     <input type="password" id="login" th:field="*{login}"  required maxlength="30" minlength="4" class="form-control" name="password" placeholder="Login">
+                    <div>
+                        <p onclick="checkLogin()" class="btn btn-light p-1 mt-2" >Check login</p>
+                        <div id="checking" style="display: inline-block; position: relative; top: 6px;" >
+                            <div style="display: inline-block" th:if="${message}">
+                                <img style='display: inline-block;' src='/img/error.svg'>
+                                <span th:text="${message}"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div class="mb-3">
@@ -71,17 +82,18 @@
                     <input type="password" id="password" th:field="*{password}"  required maxlength="30" minlength="4" class="form-control" name="password" placeholder="Password">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Registration</button>
+                <button type="submit" class="btn btn-primary" id="submit">Registration</button>
             </form>
 
             <div id="footer" class="container mt-2" style="height: 200px;">
+
                 <h4>footer</h4>
             </div>
 
         </div>
     </div>
 </div>
-
+<script th:src="@{/scripts/checkLogin.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

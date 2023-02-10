@@ -1,24 +1,17 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EU-LIFE</title>
     <link rel="stylesheet" th:href="@{/styles/main.css}">
     <link rel="stylesheet" th:href="@{/styles/start.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{img/icon.png}">
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="icon" type="image/x-icon" th:href="@{/img/icon.png}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body class="bg-dark">
 <style th:inline="text">
-    body{
-        background: url([[@{/img/background.svg}]])
-        no-repeat center center fixed;
-    }
+    body{   background: url([[@{/img/background.svg}]]) no-repeat center center fixed;  }
 </style>
 
     <div id="wrapper" class="container  py-3 my-3 text-light">
@@ -54,21 +47,54 @@
         <div id="navbarAndContentWrapper" class="container mt-2">
             <div class="row m-3 rounded-3" id="box">
                 <div class="col-md-2 mt-2">
-                    <div class="naw flex-column border border-secondary text-center px-0 rounded-3 " >
-
-                        <div  class=" h6 text-secondary mt-2">Global</div>
-                        <a href="/article/new" class="naw-item nav-link   text-white h6"> <i class="bi bi-pen h5"></i> Write article</a>
-                        <a href="/questionTest/new" class="naw-item nav-link text-white h6"> <i class="bi bi-questionTest-circle h5"></i> Ask questionTest</a>
-                        <a href="" class="naw-item nav-link  text-white h6"> <i class='fas fa-graduation-cap' style='font-size:20px'></i> Students</a>
-                        <a href="" class="naw-item nav-link  text-white h6"> <i class="fas fa-school" style='font-size:20px'></i> Universities</a>
+                    <div class="naw flex-column border border-secondary text-center px-0 rounded-3" id="navigation">
+                        <div class=" h6 text-secondary mt-2">Global</div>
+                        <a href="/article/new" class="naw-item nav-link text-white"><img th:src="@{/img/pen.svg}" width="20" height="20" alt="img">  Write an article</a>
+                        <a href="/question/new" class="naw-item nav-link text-white"><img th:src="@{/img/patch-question.svg}" width="20" height="20" alt="img">  Ask a question</a>
+                        <a href="/user/all" class="naw-item nav-link text-white"><img th:src="@{/img/mortarboard.svg}" width="20" height="20" alt="img">  Students</a>
+                        <a href="/university/all" class="naw-item nav-link text-white"><img th:src="@{/img/buildings.svg}" width="20" height="20" alt="img">  Universities</a>
                     </div>
                 </div>
                 <div class="col-md-8 ">
-                    <div class="container my-3 truncate" property="pr" th:each="questionTest : ${questions}">
-                        <a class="text-info h5" th:href="@{{id}(id=${questionTest.id})}" th:text="${questionTest.description}"></a>
-                        <p th:text="${questionTest.text}"></p>
+                    <div class="container my-3 truncate" property="pr" th:each="question: ${questions}">
+                        <a class="text-info h5" th:href="@{{id}(id=${question.id})}" th:text="${question.description}"></a>
+                    </div>
+
+                    <div class="mt-5 mb-4 text-center" th:if="${currentPage > 5}">
+                        <a th:unless="${currentPage < pagesQuantity -5}"
+                           th:href="@{/question/all(page=${1})}"
+                           th:text="'1...'"
+                           class="text-decoration-none text-white">
+                        </a>
+                        <a th:href="@{/question/all(page=${i})}"
+                           th:text="${i}"
+                           th:each="i : ${#numbers.sequence(currentPage - 5,currentPage + 5)}"
+                           th:if="${i <= pagesQuantity}"
+                           class="text-white me-1 page text-decoration-none p3">
+                        </a>
+                        <span th:if="${currentPage < pagesQuantity -5}"  th:text="'...' + ${pagesQuantity}"></span>
+                        <script>
+                            let pages = document.getElementsByClassName("page")
+                            pages.item(6).id = 'current'
+                        </script>
+                    </div>
+
+                    <div class="mt-5 mb-4 text-center" th:unless="${currentPage > 5}">
+                        <a th:href="@{/question/all(page=${i})}"
+                           th:text="${i}"
+                           th:each="i : ${#numbers.sequence(1,currentPage + 5)}"
+                           th:if="${i <= pagesQuantity}"
+                           class="text-white me-1 page text-decoration-none p3">
+                        </a>
+                        <span th:if="${currentPage < pagesQuantity -5}" th:text="'...' + ${pagesQuantity}"></span>
+                        <script th:inline="text">
+                            let pages = document.getElementsByClassName("page")
+                            pages.item([[${currentPage}]]).id = 'current'
+                        </script>
                     </div>
                 </div>
+
+
         </div>
     </div>
     </div>

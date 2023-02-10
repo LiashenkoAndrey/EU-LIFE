@@ -3,9 +3,12 @@ package eulife.services;
 import eulife.domain.Question;
 import eulife.repositories.QuestionRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionService {
@@ -21,11 +24,15 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
-    public Question findById(Long id) {
-        return questionRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public Optional<Question> findById(Long id) {
+        return questionRepository.findById(id);
     }
 
     public List<Question> findAll() {
         return questionRepository.findAll();
+    }
+
+    public Page<Question> findAll(Pageable pageable, Integer currentPage) {
+        return questionRepository.findAll(pageable.withPage(currentPage));
     }
 }
