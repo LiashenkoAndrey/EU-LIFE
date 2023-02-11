@@ -37,7 +37,7 @@ public class UserServiceTest {
 
     @Test
     public void cropImage() throws IOException {
-        Image image = UserService.getDefaultUserImage();
+        Image image = userService.getDefaultUserImage();
         var byteArrayInputStream = new ByteArrayInputStream(image.getBinary_image());
         var bufferedImage = ImageIO.read(byteArrayInputStream);
         BufferedImage croppedImage = userService.cropImage(bufferedImage);
@@ -46,6 +46,6 @@ public class UserServiceTest {
 
     @Test
     public void getDefaultUserImage() {
-        Assertions.assertNotNull(UserService.getDefaultUserImage());
+        Assertions.assertNotNull(userService.getDefaultUserImage());
     }
 }

@@ -49,12 +49,12 @@
         <div id="navbarAndContentWrapper" class="container mt-2 ">
             <div class="row m-3 rounded-3" id="box">
                 <div class="col-md-2 mt-2">
-                    <div class="naw flex-column border border-secondary text-center px-0 rounded-3 ">
+                    <div class="naw flex-column border border-secondary text-center px-0 rounded-3" id="navigation">
                         <div class=" h6 text-secondary mt-2">Global</div>
-                        <a href="/article/new" class="naw-item nav-link   text-white h6"> <i class="bi bi-pen h5"></i> Write an article</a>
-                        <a href="/question/new" class="naw-item nav-link text-white h6"> <i class="bi bi-question-circle h5"></i> Ask a question</a>
-                        <a href="" class="naw-item nav-link  text-white h6"> <i class='fas fa-graduation-cap' style='font-size:20px'></i> Students</a>
-                        <a href="" class="naw-item nav-link  text-white h6"> <i class="fas fa-school" style='font-size:20px'></i> University</a>
+                        <a href="/article/new" class="naw-item nav-link text-white"><img th:src="@{/img/pen.svg}" width="20" height="20" alt="img">  Write an article</a>
+                        <a href="/question/new" class="naw-item nav-link text-white"><img th:src="@{/img/patch-question.svg}" width="20" height="20" alt="img">  Ask a question</a>
+                        <a href="/user/all" class="naw-item nav-link text-white"><img th:src="@{/img/mortarboard.svg}" width="20" height="20" alt="img">  Students</a>
+                        <a href="/university/all" class="naw-item nav-link text-white"><img th:src="@{/img/buildings.svg}" width="20" height="20" alt="img">  Universities</a>
                     </div>
                 </div>
                 <div class="col-md-8">

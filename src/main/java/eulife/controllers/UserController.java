@@ -48,14 +48,11 @@ public class UserController {
         currentPage -= 1;
         Page<User> pageOfUsers = userService.getPageOfUsers(pageable.withPage(currentPage));
         model.addAttribute("users", pageOfUsers.toList());
-        log.info("pages: " + pageOfUsers.toList());
-        log.info("size: " + pageOfUsers.getTotalPages());
-        log.info("elements: " + pageOfUsers.getTotalElements());
         model.addAttribute("pagesQuantity", pageOfUsers.getTotalPages());
         model.addAttribute("currentPage", currentPage);
 
         if (auth != null) model.addAttribute("user", auth.getPrincipal());
-        return "/user/usersAll";
+        return "user/usersAll";
     }
 
     @PreAuthorize("permitAll()")

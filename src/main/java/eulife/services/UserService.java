@@ -2,6 +2,7 @@ package eulife.services;
 
 import eulife.domain.*;
 import eulife.domain.dto.UserDto;
+import eulife.repositories.ImageRepository;
 import eulife.repositories.UserRepository;
 import eulife.util.DtoMapper;
 import eulife.util.ImageMapper;
@@ -37,12 +38,15 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final ImageRepository imageRepository;
 
-    public UserService(ImageMapper imageMapper, UserMapper userMapper, DtoMapper dtoMapper, UserRepository userRepository) {
+
+    public UserService(ImageMapper imageMapper, UserMapper userMapper, DtoMapper dtoMapper, UserRepository userRepository, ImageRepository imageRepository) {
         this.imageMapper = imageMapper;
         this.userMapper = userMapper;
         this.dtoMapper = dtoMapper;
         this.userRepository = userRepository;
+        this.imageRepository = imageRepository;
     }
 
 
@@ -120,19 +124,9 @@ public class UserService {
         return user;
     }
 
-    public static Image getDefaultUserImage() {
-        ByteArrayOutputStream bos;
-        File file;
-        try {
-            file = new File("src/main/resources/static/img/DefaultUserImage.png");
-            BufferedImage bImage = ImageIO.read(file);
-            bos = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "png", bos );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public Image getDefaultUserImage() {
+        return new Image("defaulUserImage", imageRepository.getImageById("63e64b899552524cf104c663"));
 
-        return new Image(file.getName(), bos.toByteArray());
     }
 
     public Image getImageByUserId(Long user_id) {

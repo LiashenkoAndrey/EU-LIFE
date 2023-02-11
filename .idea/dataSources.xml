@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/eu_life</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="eulife@eu-life.cbrtuyqxuzpi.eu-central-1.rds.amazonaws.com" uuid="3bfa9553-14d5-4c05-8434-dc2bb6f06bf0">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://eu-life.cbrtuyqxuzpi.eu-central-1.rds.amazonaws.com:3306/eulife</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
